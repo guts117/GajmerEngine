@@ -1,18 +1,17 @@
-#include "creator_pch.h"
-#include "EngineEditorMain.h"
-#include "EngineUIMain.h"
+#include "studio_pch.h"
+#include "StudioMain.h"
+#include "UIMain.h"
 #include "GraphicsMain.h"
-#include "SceneViewer.h"
-#include "EngineInputManager.h"
+#include "Viewer.h"
+#include "InputManager.h"
 
-using namespace NarakaCreator;
+using namespace Studio;
 using namespace Graphics;
-using namespace EngineUI;
-using namespace InputManager;
 
-struct EngineEditorMain::Impl
+
+struct StudioMain::Impl
 {
-	EngineUIMain engineUI;
+	UIMain engineUI;
 	std::vector<RendererToViewer> m_renderer2Viewers;
 	bool isEditorViewSelected;
 	bool isGameViewSelected;
@@ -52,7 +51,7 @@ struct EngineEditorMain::Impl
 		}
 		else if(isGameViewSelected)
 		{
-			if (EngineInputManager::GetKeys()[GLFW_KEY_L])
+			if (InputManager::GetKeys()[GLFW_KEY_L])
 			{
 				std::cout << "L" << std::endl;
 				//spotLights[0]->Toggle();
@@ -69,7 +68,7 @@ struct EngineEditorMain::Impl
 		engineUI.EndUpdate();
 	}
 
-	void AddSceneViewers(const GraphicsMain* graphicsMain)
+	void AddViewers(const GraphicsMain* graphicsMain)
 	{
 		auto editorSelectCallback = [this](bool isSelected) { isEditorViewSelected = isSelected; };
 		auto gameSelectCallback = [this](bool isSelected) { isGameViewSelected = isSelected; };
@@ -80,45 +79,45 @@ struct EngineEditorMain::Impl
 			std::function<void(bool)> selectCallback;
 			if (r2v.viewerType == Editor)	{ selectCallback = editorSelectCallback; }
 			else							{ selectCallback = gameSelectCallback; }
-			engineUI.AddSceneViewers(fbo, r2v.viewerName, static_cast<SceneViewerType>(r2v.viewerType), selectCallback);
+			engineUI.AddViewers(fbo, r2v.viewerName, static_cast<ViewerType>(r2v.viewerType), selectCallback);
 		}
 	}
 
 	~Impl() noexcept = default;
 };
 
-EngineEditorMain::EngineEditorMain() noexcept
+StudioMain::StudioMain() noexcept
 	: m_pImpl{ std::make_unique<Impl>()}
 {
 }
 
-bool EngineEditorMain::IsUpdateBufferSize() 
+bool StudioMain::IsUpdateBufferSize() 
 {
 	return Pimpl()->engineUI.IsUpdateBufferSize();
 }
 
-glm::ivec2 EngineEditorMain::GetScreenDimensions()
+glm::ivec2 StudioMain::GetScreenDimensions()
 {
 	return Pimpl()->engineUI.GetScreenDimensions();
 }
 
-bool EngineEditorMain::IsEnd()
+bool StudioMain::IsEnd()
 {
 	return Pimpl()->engineUI.IsEnd();
 }
-void EngineEditorMain::Update(const glm::ivec2& screenDims)
+void StudioMain::Update(const glm::ivec2& screenDims)
 {
 	Pimpl()->Update(screenDims);
 }
 
-void EngineEditorMain::EndUpdate()
+void StudioMain::EndUpdate()
 {
 	Pimpl()->EndUpdate();
 }
 
-void EngineEditorMain::AddSceneViewers(const GraphicsMain* graphicsMain)
+void StudioMain::AddViewers(const GraphicsMain* graphicsMain)
 {
-	Pimpl()->AddSceneViewers(graphicsMain);
+	Pimpl()->AddViewers(graphicsMain);
 }
 
-EngineEditorMain::~EngineEditorMain() noexcept = default;
+StudioMain::~StudioMain() noexcept = default;

@@ -1,22 +1,20 @@
-#include "creator_pch.h"
-#include "EngineUIMain.h"
-#include "SceneViewer.h"
+#include "studio_pch.h"
+#include "UIMain.h"
+#include "Viewer.h"
 #include "Window.h"
-#include "EngineInputManager.h"
+#include "InputManager.h"
 #include <imgui_node_editor.h>
 
 namespace ed = ax::NodeEditor;
 
-using namespace NarakaCreator;
-using namespace EngineUI;
-using namespace InputManager;
+using namespace Studio;
 
 extern int ScreenWidth;
 extern int ScreenHeight;
 extern bool IsUpdateFrameBuffersSize;
 
 //ToDo: This is copy pasted from Example basic-interaction-example.cpp
-struct EngineUIMain::SimpleNodeEditorExample
+struct UIMain::SimpleNodeEditorExample
 {
     void Init()
     {
@@ -78,7 +76,7 @@ struct EngineUIMain::SimpleNodeEditorExample
     ed::EditorContext* m_Context = nullptr;    // Editor context, required to trace a editor state.
 };
 
-struct EngineUIMain::BasicInteractionNodeEditorExample
+struct UIMain::BasicInteractionNodeEditorExample
 {
     // Struct to hold basic information about connection between
     // pins. Note that connection (aka. link) has its own ID.
@@ -276,11 +274,11 @@ struct EngineUIMain::BasicInteractionNodeEditorExample
     int                  m_NextLinkId = 100;     // Counter to help generate link ids. In real application this will probably based on pointer to user data structure.
 };
 
-struct EngineUIMain::Impl
+struct UIMain::Impl
 {
 	int hideWindowIndex;
 	std::unique_ptr<Window> mainWindow;
-	std::vector<SceneViewer> m_sceneList;
+	std::vector<Viewer> m_sceneList;
 
     //ToDo: Start doing Node/Graph Editor Stuff
     SimpleNodeEditorExample nodeEditorEg;
@@ -289,11 +287,11 @@ struct EngineUIMain::Impl
 	Impl() noexcept = delete;
 
 	Impl(const bool installCallbacks, const std::string version) noexcept
-		: m_sceneList{ std::vector<SceneViewer>() }
+		: m_sceneList{ std::vector<Viewer>() }
 		, mainWindow{ std::make_unique<Window>() }
 	{		
 		mainWindow->Initialise();
-		mainWindow->CreateInputCallbacks(EngineInputManager::HandleKeysPresses, EngineInputManager::HandleCursorPosition, EngineInputManager::HandleMousePresses, EngineInputManager::HandleMouseScrolls);
+		mainWindow->CreateInputCallbacks(InputManager::HandleKeysPresses, InputManager::HandleCursorPosition, InputManager::HandleMousePresses, InputManager::HandleMouseScrolls);
 
 		//Initialize IMGUI
 		IMGUI_CHECKVERSION();
@@ -409,9 +407,9 @@ struct EngineUIMain::Impl
 		IsUpdateFrameBuffersSize = false;
 	}
 
-	void AddSceneViewers(GLuint sceneTex, std::string sceneName, SceneViewerType viewerType, std::function<void(bool)> selectCallback)
+	void AddViewers(GLuint sceneTex, std::string sceneName, ViewerType viewerType, std::function<void(bool)> selectCallback)
 	{
-		auto scene = SceneViewer(sceneTex, sceneName, viewerType, selectCallback);
+		auto scene = Viewer(sceneTex, sceneName, viewerType, selectCallback);
 		m_sceneList.emplace_back(std::move(scene));
 	}
 
@@ -425,42 +423,42 @@ struct EngineUIMain::Impl
 	}
 };
 
-EngineUIMain::EngineUIMain(const bool installCallbacks, const std::string version) noexcept
+UIMain::UIMain(const bool installCallbacks, const std::string version) noexcept
 	: m_pImpl{ new Impl(installCallbacks, version) }
 {
 }
 
-void EngineUIMain::Update(const glm::ivec2& screenDims)
+void UIMain::Update(const glm::ivec2& screenDims)
 {
 	Pimpl()->Update(screenDims);
 }
 
-void EngineUIMain::EndUpdate()
+void UIMain::EndUpdate()
 {
 	Pimpl()->EndUpdate();
 }
 
-void EngineUIMain::AddSceneViewers(GLuint sceneTex, std::string sceneName, SceneViewerType viewerType, std::function<void(bool)> selectCallback)
+void UIMain::AddViewers(GLuint sceneTex, std::string sceneName, ViewerType viewerType, std::function<void(bool)> selectCallback)
 {
-	Pimpl()->AddSceneViewers(sceneTex, sceneName, viewerType, selectCallback);
+	Pimpl()->AddViewers(sceneTex, sceneName, viewerType, selectCallback);
 }
 
-GLFWwindow* EngineUIMain::GetMainWindow()
+GLFWwindow* UIMain::GetMainWindow()
 {
 	return Pimpl()->mainWindow->GetWindow();
 }
 
-glm::ivec2 EngineUIMain::GetScreenDimensions() 
+glm::ivec2 UIMain::GetScreenDimensions() 
 {
 	return glm::ivec2(ScreenWidth, ScreenHeight);
 }
 
-bool EngineUIMain::IsUpdateBufferSize()
+bool UIMain::IsUpdateBufferSize()
 {
 	return IsUpdateFrameBuffersSize;
 }
 
-bool EngineUIMain::AddKeyBoardButtonEvent(int key, bool down)
+bool UIMain::AddKeyBoardButtonEvent(int key, bool down)
 {
 	ImGuiIO& io = ImGui::GetIO();
 	io.AddKeyEvent(static_cast<ImGuiKey>(key), down);
@@ -468,7 +466,7 @@ bool EngineUIMain::AddKeyBoardButtonEvent(int key, bool down)
 	return !io.WantCaptureKeyboard;
 }
 
-bool EngineUIMain::AddCursorPosEvent(float x, float y)
+bool UIMain::AddCursorPosEvent(float x, float y)
 {
 	ImGuiIO& io = ImGui::GetIO();
 	io.AddMousePosEvent(x, y);
@@ -476,7 +474,7 @@ bool EngineUIMain::AddCursorPosEvent(float x, float y)
 	return !io.WantCaptureMouse;
 }
 
-bool EngineUIMain::AddMouseButtonEvent(int mouse_button, bool down)
+bool UIMain::AddMouseButtonEvent(int mouse_button, bool down)
 {
 	// (1) ALWAYS forward mouse data to ImGui! This is automatic with default backends. With your own backend:
 	ImGuiIO& io = ImGui::GetIO();
@@ -486,7 +484,7 @@ bool EngineUIMain::AddMouseButtonEvent(int mouse_button, bool down)
 	return !io.WantCaptureMouse;
 }
 
-bool EngineUIMain::AddMouseScrollEvent(float wheel_x, float wheel_y)
+bool UIMain::AddMouseScrollEvent(float wheel_x, float wheel_y)
 {
 	ImGuiIO& io = ImGui::GetIO();
 	io.AddMouseWheelEvent(wheel_x, wheel_y);
@@ -494,9 +492,9 @@ bool EngineUIMain::AddMouseScrollEvent(float wheel_x, float wheel_y)
 	return !io.WantCaptureMouse;
 }
 
-bool EngineUIMain::IsEnd()
+bool UIMain::IsEnd()
 {
 	return Pimpl()->mainWindow->getShouldClose();
 }
 
-EngineUIMain::~EngineUIMain() noexcept = default;
+UIMain::~UIMain() noexcept = default;

@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "GraphicsMain.h"
 #include "PhysicsMain.h"
-#include "EngineEditorMain.h"
+#include "StudioMain.h"
 
 //using namespace NarakaKarEngine;
-using namespace NarakaCreator;
+using namespace Studio;
 using namespace Graphics;
 using namespace Physics;
 
@@ -12,10 +12,10 @@ using namespace Physics;
 int main()
 {
 	auto physics = PhysicsMain();
-	auto creator = EngineEditorMain();
+	auto creator = StudioMain();
 	glm::ivec2 screenDims = glm::ivec2(creator.GetScreenDimensions());
 	auto graphicsMain = GraphicsMain(screenDims);
-	creator.AddSceneViewers(&graphicsMain);
+	creator.AddViewers(&graphicsMain);
 
 	do 
 	{

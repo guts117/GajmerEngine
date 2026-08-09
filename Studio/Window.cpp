@@ -1,9 +1,8 @@
-#include "creator_pch.h"
+#include "studio_pch.h"
 #include "Window.h"
-#include "EngineUIMain.h"
+#include "UIMain.h"
 
-using namespace NarakaCreator;
-using namespace EngineUI;
+using namespace Studio;
 
 //[3840 x 2160] [2560 x 1440] [1920 x 1080] [1280x720]
 int ScreenWidth;
@@ -77,7 +76,7 @@ int Window::Initialise()
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	auto mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	mainWindow = glfwCreateWindow(mode->width, mode->height, "NarakaCreator", NULL, NULL);
+	mainWindow = glfwCreateWindow(mode->width, mode->height, "Studio", NULL, NULL);
 
 	if (!mainWindow) {
 		printf("GLFWwindow creation failed");
