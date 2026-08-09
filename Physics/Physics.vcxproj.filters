@@ -17,7 +17,7 @@
     <ClInclude Include="physics_pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsEngineMain.h">
+    <ClInclude Include="PhysicsMain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -25,7 +25,7 @@
     <ClCompile Include="physics_pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsEngineMain.cpp">
+    <ClCompile Include="PhysicsMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

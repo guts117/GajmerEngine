@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graphics", "Graphics\Graphics.vcxproj", "{1A288EFF-88B0-4E52-BF4B-C676FA9850F8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhysicsEngine", "PhysicsEngine\PhysicsEngine.vcxproj", "{12FD20BD-E9B0-425C-8300-F55ECF114314}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Physics", "Physics\Physics.vcxproj", "{12FD20BD-E9B0-425C-8300-F55ECF114314}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NarakaKarEngine", "NarakaKarEngine\NarakaKarEngine.vcxproj", "{AE2898F0-4D3A-4A72-85E0-45BEAE1E1C52}"
 	ProjectSection(ProjectDependencies) = postProject

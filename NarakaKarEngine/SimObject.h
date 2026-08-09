@@ -3,9 +3,9 @@
 
 #include "pch.h"
 
-namespace NarakaPhysicsEngine
+namespace Physics
 {
-	class PhysicsEngine;
+	class PhysicsMain;
 }
 namespace Graphics
 {

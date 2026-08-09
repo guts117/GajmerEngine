@@ -1,11 +1,10 @@
 #include "physics_pch.h"
-#include "PhysicsEngineMain.h"
+#include "PhysicsMain.h"
 #include <bullet/btBulletDynamicsCommon.h>
 
-using namespace NarakaPhysicsEngine;
-using namespace PhysicsEngine;
+using namespace Physics;
 
-struct PhysicsEngineMain::Impl 
+struct PhysicsMain::Impl 
 {
 public:
 	Impl(Impl&& rhs) noexcept = delete;
@@ -98,21 +97,21 @@ private:
 	std::vector<std::tuple<glm::mat4*, btRigidBody*>>* bodies;
 };
 
-PhysicsEngineMain::PhysicsEngineMain() : m_pImpl{ std::make_unique<Impl>()} {};
+PhysicsMain::PhysicsMain() : m_pImpl{ std::make_unique<Impl>()} {};
 
-void PhysicsEngineMain::Update(float deltaTime)
+void PhysicsMain::Update(float deltaTime)
 {
 	Pimpl()->Update(deltaTime);
 }
 
-void PhysicsEngineMain::AddStaticPlane(float x, float y, float z, float mass, glm::vec3 normal, glm::mat4* model)
+void PhysicsMain::AddStaticPlane(float x, float y, float z, float mass, glm::vec3 normal, glm::mat4* model)
 {
 	Pimpl()->AddStaticPlane(x, y, z, mass, normal, model);
 }
 
-void PhysicsEngineMain::AddSphere(float rad, float x, float y, float z, float mass, glm::mat4* model)
+void PhysicsMain::AddSphere(float rad, float x, float y, float z, float mass, glm::mat4* model)
 {
 	Pimpl()->AddSphere(rad, x, y, z, mass, model);
 }
 
-PhysicsEngineMain::~PhysicsEngineMain() noexcept = default;
+PhysicsMain::~PhysicsMain() noexcept = default;
