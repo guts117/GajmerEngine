@@ -9,9 +9,9 @@
 
 #include "creator_pch.h"
 
-namespace NarakaRenderEngine::RenderEngine
+namespace Graphics
 {
-	class RenderEngineMain;
+	class GraphicsMain;
 }
 
 namespace NarakaCreator
@@ -49,7 +49,7 @@ namespace NarakaCreator
 		void Update(const glm::ivec2& screenDims);
 		void EndUpdate();
 
-		void AddSceneViewers(const NarakaRenderEngine::RenderEngine::RenderEngineMain* renderEngineMain);
+		void AddSceneViewers(const Graphics::GraphicsMain* graphicsMain);
 
 		~EngineEditorMain() noexcept;
 	private:

@@ -1,13 +1,12 @@
 #include "creator_pch.h"
 #include "EngineEditorMain.h"
 #include "EngineUIMain.h"
-#include "RenderEngineMain.h"
+#include "GraphicsMain.h"
 #include "SceneViewer.h"
 #include "EngineInputManager.h"
 
 using namespace NarakaCreator;
-using namespace NarakaRenderEngine;
-using namespace RenderEngine;
+using namespace Graphics;
 using namespace EngineUI;
 using namespace InputManager;
 
@@ -70,13 +69,13 @@ struct EngineEditorMain::Impl
 		engineUI.EndUpdate();
 	}
 
-	void AddSceneViewers(const RenderEngineMain* renderEngineMain)
+	void AddSceneViewers(const GraphicsMain* graphicsMain)
 	{
 		auto editorSelectCallback = [this](bool isSelected) { isEditorViewSelected = isSelected; };
 		auto gameSelectCallback = [this](bool isSelected) { isGameViewSelected = isSelected; };
 		for(auto r2v : m_renderer2Viewers)
 		{
-			auto fbo = renderEngineMain->GetFboBuffer(r2v.sceneFboName, r2v.fboIndex, r2v.bufferIndex);
+			auto fbo = graphicsMain->GetFboBuffer(r2v.sceneFboName, r2v.fboIndex, r2v.bufferIndex);
 			
 			std::function<void(bool)> selectCallback;
 			if (r2v.viewerType == Editor)	{ selectCallback = editorSelectCallback; }
@@ -117,9 +116,9 @@ void EngineEditorMain::EndUpdate()
 	Pimpl()->EndUpdate();
 }
 
-void EngineEditorMain::AddSceneViewers(const RenderEngineMain* renderEngineMain)
+void EngineEditorMain::AddSceneViewers(const GraphicsMain* graphicsMain)
 {
-	Pimpl()->AddSceneViewers(renderEngineMain);
+	Pimpl()->AddSceneViewers(graphicsMain);
 }
 
 EngineEditorMain::~EngineEditorMain() noexcept = default;

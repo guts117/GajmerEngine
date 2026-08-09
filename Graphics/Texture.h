@@ -1,0 +1,79 @@
+#ifndef TEXTURE
+#define TEXTURE
+
+#include "render_pch.h"
+
+namespace Graphics
+{
+	enum TexType
+	{
+		Default,
+		Albedo,
+		Metallic,
+		Roughness,
+		Normal,
+		Parallax,
+		Glow,
+		Displacement,
+		Blend,
+		Noise,
+		HDR,
+		Max
+	};
+
+	class Texture : public ClusterableWithBuffer<sizeof(GLuint) * 3, alignof(GLuint)>
+	{
+	public:
+		explicit Texture();
+		explicit Texture(std::string&& fileLoc, bool isSRGB = false);
+
+		Texture(Texture&& rhs) noexcept;
+		Texture& operator=(Texture&& rhs) noexcept;
+
+		Texture(const Texture& rhs) noexcept = delete;
+		Texture& operator=(const Texture& rhs) noexcept = delete;
+
+		bool LoadTexture2D();
+		bool LoadTextureArray(const glm::vec2& resolution, const int numOfLayers);
+		bool LoadCubeMap();
+		bool LoadTextureHDR();
+
+		bool LoadNativeTexture(const std::vector<glm::vec3>& noiseData);
+		bool CreateTextureArray(const glm::vec2& resolution, const int numOfLayers, bool createMipMaps = false);
+
+		bool CreateTexture3D(const glm::vec3& resolution, bool createMipMaps = false);
+
+		bool CreateTexture(const glm::vec2& resolution);
+
+		void UseTextureTemp(GLuint i) const;
+
+		void UseTexture(GLuint i);
+		void UseTextureArray(GLuint i);
+		void UseTexture3D(GLuint i);
+		void UseTextureReadWrite(GLuint i, bool isWriteOnly, bool isLayered);
+		void UseCubeMap(GLuint i);
+
+		void GetTextureData(float* data);
+
+		//Getters
+		const int GetWidth();
+		const int GetHeight();
+		const int GetBitDepth();
+		const GLuint GetTextureID();
+
+		~Texture() noexcept;
+
+	private:
+		struct Impl;
+
+		const Impl& Pimpl() const { return m_pImpl.Get(); }
+		Impl& Pimpl() { return m_pImpl.Get(); }
+
+#ifdef NDEBUG //size of string is different between debug(40) and release(32)
+		ForwardDeclaredPimpl<Impl, alignof(std::string) * 7, alignof(std::string)> m_pImpl;
+#else
+		ForwardDeclaredPimpl<Impl, alignof(std::string) * 8, alignof(std::string)> m_pImpl;
+#endif;
+	};
+}
+#endif
