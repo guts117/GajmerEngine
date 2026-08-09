@@ -1,14 +1,14 @@
 #include "pch.h"
 #include "CoreMain.h"
 #include "SimObject.h"
-#include "Transform.h"
+#include "Pose.h"
 
 using namespace Core;
 
 
 struct CoreMain::Impl
 {
-	std::vector<Transform> transformPool = std::vector<Transform>();
+	std::vector<Pose> transformPool = std::vector<Pose>();
 	std::vector<SimObject> simObjectpool = std::vector<SimObject>();
 
 	//where game loops happen;
@@ -31,7 +31,7 @@ struct CoreMain::Impl
 	{
 		for (auto& t : transformPool)
 		{
-			t.UpdateModelMatrix();
+			t.Updatematrix();
 		}
 	}
 

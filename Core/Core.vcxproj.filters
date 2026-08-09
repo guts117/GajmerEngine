@@ -17,13 +17,13 @@
     <ClInclude Include="SimObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineSimulatorMain.h">
+    <ClInclude Include="Pose.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SimObjectHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreMain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -37,13 +37,13 @@
     <ClCompile Include="SimObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineSimulatorMain.cpp">
+    <ClCompile Include="Pose.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SimObjectHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CoreMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

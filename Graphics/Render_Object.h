@@ -10,7 +10,7 @@ namespace Graphics
 	class Texture;
 	class Shader_Object;
 
-	struct Transform : public ClusterableWithBuffer<sizeof(glm::mat4), alignof(glm::mat4)>
+	struct ModelMatrix : public ClusterableWithBuffer<sizeof(glm::mat4), alignof(glm::mat4)>
 	{
 	private:
 		glm::mat4 modelMatrix;
@@ -27,10 +27,10 @@ namespace Graphics
 		const glm::mat4* prevViewProjection = nullptr;	//has motion blur
 	};
 
-	struct BoneTransform
+	struct BoneModelMatrix
 	{
-		std::shared_ptr<const aiMatrix4x4> FinalWorldTransform;
-		std::unique_ptr<aiMatrix4x4> PrevFinalWorldTransfrom;
+		std::shared_ptr<const aiMatrix4x4> FinalWorldMatrix;
+		std::unique_ptr<aiMatrix4x4> PrevFinalWorldMatrix;
 	};
 
 	class Render_Object
@@ -40,9 +40,9 @@ namespace Graphics
 
 		explicit Render_Object(std::vector<rw_clustering_ptr<Mesh>>&& meshes
 							, std::map<TexType, std::vector<rw_clustering_ptr<Texture>>>&& textureMap = std::map<TexType, std::vector<rw_clustering_ptr<Texture>>>()
-							, rw_clustering_ptr<Transform>&& modelMatrix = rw_clustering_ptr<Transform>()
-							, rw_clustering_ptr<Transform>&& prevModelMatrix = rw_clustering_ptr<Transform>()
-							, std::vector<BoneTransform*>&& boneMatrices = std::vector<BoneTransform*>());
+							, rw_clustering_ptr<ModelMatrix>&& modelMatrix = rw_clustering_ptr<ModelMatrix>()
+							, rw_clustering_ptr<ModelMatrix>&& prevModelMatrix = rw_clustering_ptr<ModelMatrix>()
+							, std::vector<BoneModelMatrix*>&& boneMatrices = std::vector<BoneModelMatrix*>());
 
 		void SetTextures(std::map<TexType, std::vector<rw_clustering_ptr<Texture>>>&& textureMap);
 

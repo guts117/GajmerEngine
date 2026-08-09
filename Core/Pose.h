@@ -1,11 +1,11 @@
-#ifndef TRANSFORM
-#define TRANSFORM
+#ifndef POSE
+#define POSE
 
 #include "pch.h"
 
 namespace Core
 {
-	struct Transform
+	struct Pose
 	{
 		glm::vec3 position;
 		glm::quat quaternion;
@@ -23,7 +23,7 @@ namespace Core
 		void Translate(glm::vec3&& position);
 		void RotateOnAxis(float&& angleInDegrees, glm::vec3&& axis);
 		void Scale(glm::vec3&& scale);
-		void UpdateModelMatrix();
+		void Updatematrix();
 	};
 }
 

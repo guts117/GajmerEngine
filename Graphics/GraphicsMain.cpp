@@ -121,8 +121,8 @@ struct GraphicsMain::Impl
 
 	ClusteringMemoryPool<Texture> texturePool = ClusteringMemoryPool<Texture>(5);
 	ClusteringMemoryPool<Mesh> meshPool = ClusteringMemoryPool<Mesh>(5);
-	ClusteringMemoryPool<Transform> modelMatrixPool = ClusteringMemoryPool<Transform>(5);
-	ClusteringMemoryPool<Transform> prevModelMatrixPool = ClusteringMemoryPool<Transform>(5);
+	ClusteringMemoryPool<ModelMatrix> modelMatrixPool = ClusteringMemoryPool<ModelMatrix>(5);
+	ClusteringMemoryPool<ModelMatrix> prevModelMatrixPool = ClusteringMemoryPool<ModelMatrix>(5);
 	ClusteringMemoryPool<Shader_Object> shaderObjPool = ClusteringMemoryPool<Shader_Object>(5);
 
 	std::vector<std::vector<Render_Object>> ssaoQuadRO;
@@ -135,15 +135,15 @@ struct GraphicsMain::Impl
 	{
 		return meshPool.AddToPool(std::move(mesh));
 	}
-	rw_clustering_ptr<Transform> AddToModelMatrixPool(glm::mat4&& mat)
+	rw_clustering_ptr<ModelMatrix> AddToModelMatrixPool(glm::mat4&& mat)
 	{
-		auto trns = Transform();
+		auto trns = ModelMatrix();
 		trns.SetModelMatrtix(mat);
 		return modelMatrixPool.AddToPool(std::move(trns));
 	}
-	rw_clustering_ptr<Transform> AddToPrevModelMatrixPool(glm::mat4&& mat)
+	rw_clustering_ptr<ModelMatrix> AddToPrevModelMatrixPool(glm::mat4&& mat)
 	{
-		auto trns = Transform();
+		auto trns = ModelMatrix();
 		trns.SetModelMatrtix(mat);
 		return prevModelMatrixPool.AddToPool(std::move(trns));
 	}

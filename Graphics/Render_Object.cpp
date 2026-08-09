@@ -9,18 +9,18 @@ using namespace Graphics;
 struct alignas(alignof(void*)) Render_Object::Impl
 {
 	std::vector<rw_clustering_ptr<Mesh>> m_Meshes;
-	std::vector<BoneTransform*> m_BoneMatrices;
+	std::vector<BoneModelMatrix*> m_BoneMatrices;
 	std::map<TexType, std::vector<rw_clustering_ptr<Texture>>> m_TextureMap;
-	rw_clustering_ptr<Transform> m_ModelMatrix;
-	rw_clustering_ptr<Transform> m_PrevModelMatrix;
+	rw_clustering_ptr<ModelMatrix> m_ModelMatrix;
+	rw_clustering_ptr<ModelMatrix> m_PrevModelMatrix;
 
 	Impl() = delete;
 
 	Impl(std::vector<rw_clustering_ptr<Mesh>>&& meshes
 		, std::map<TexType, std::vector<rw_clustering_ptr<Texture>>>&& textureMap
-		, rw_clustering_ptr<Transform>&& modelMatrix
-		, rw_clustering_ptr<Transform>&& prevModelMatrix
-		, std::vector<BoneTransform*>&& boneMatrices)
+		, rw_clustering_ptr<ModelMatrix>&& modelMatrix
+		, rw_clustering_ptr<ModelMatrix>&& prevModelMatrix
+		, std::vector<BoneModelMatrix*>&& boneMatrices)
 		: m_Meshes{ std::move(meshes) }
 		, m_BoneMatrices{ std::move(boneMatrices) }
 		, m_TextureMap{ std::move(textureMap) }	
@@ -33,8 +33,8 @@ struct alignas(alignof(void*)) Render_Object::Impl
 		: m_TextureMap{ std::move(rhs.m_TextureMap) }	
 		, m_Meshes {std::move(rhs.m_Meshes)}	
 		, m_BoneMatrices{ std::move(rhs.m_BoneMatrices) }
-		, m_ModelMatrix {std::exchange(rhs.m_ModelMatrix, rw_clustering_ptr<Transform>())}
-		, m_PrevModelMatrix {std::exchange(rhs.m_PrevModelMatrix, rw_clustering_ptr<Transform>())}
+		, m_ModelMatrix {std::exchange(rhs.m_ModelMatrix, rw_clustering_ptr<ModelMatrix>())}
+		, m_PrevModelMatrix {std::exchange(rhs.m_PrevModelMatrix, rw_clustering_ptr<ModelMatrix>())}
 	{
 	};
 	Impl& operator=(Impl&& rhs) noexcept
@@ -42,8 +42,8 @@ struct alignas(alignof(void*)) Render_Object::Impl
 		m_TextureMap = std::move(rhs.m_TextureMap);
 		m_Meshes = std::move(rhs.m_Meshes);
 		m_BoneMatrices = std::move(rhs.m_BoneMatrices);
-		m_ModelMatrix = std::exchange(rhs.m_ModelMatrix, rw_clustering_ptr<Transform>());
-		m_PrevModelMatrix = std::exchange(rhs.m_PrevModelMatrix, rw_clustering_ptr<Transform>());
+		m_ModelMatrix = std::exchange(rhs.m_ModelMatrix, rw_clustering_ptr<ModelMatrix>());
+		m_PrevModelMatrix = std::exchange(rhs.m_PrevModelMatrix, rw_clustering_ptr<ModelMatrix>());
 		
 		return *this;
 	};
@@ -61,7 +61,7 @@ struct alignas(alignof(void*)) Render_Object::Impl
 			{
 				shader->SetVariable("prevPVM", *params.prevViewProjection * (m_PrevModelMatrix.get())->GetModelMatrix());
 				//m_PrevModelMatrix->SetModelMatrtix(m_ModelMatrix.get()->GetModelMatrix());
-				m_PrevModelMatrix.invoke(&Transform::SetModelMatrtix, m_ModelMatrix.get()->GetModelMatrix());
+				m_PrevModelMatrix.invoke(&ModelMatrix::SetModelMatrtix, m_ModelMatrix.get()->GetModelMatrix());
 			}
 		}
 
@@ -72,9 +72,9 @@ struct alignas(alignof(void*)) Render_Object::Impl
 		for (auto i = 0; i < m_BoneMatrices.size(); i++) // move all matrices for actual model position to shader
 		{
 			auto& boneMatrix = m_BoneMatrices[i];
-			shader->SetVariable("gBones", *boneMatrix->FinalWorldTransform);
-			shader->SetVariable("gPrevBones", *boneMatrix->PrevFinalWorldTransfrom);
-			*boneMatrix->PrevFinalWorldTransfrom = *boneMatrix->FinalWorldTransform;
+			shader->SetVariable("gBones", *boneMatrix->FinalWorldMatrix);
+			shader->SetVariable("gPrevBones", *boneMatrix->PrevFinalWorldMatrix);
+			*boneMatrix->PrevFinalWorldMatrix = *boneMatrix->FinalWorldMatrix;
 		}
 
 		for (size_t i = 0; i < m_Meshes.size(); ++i)
@@ -172,9 +172,9 @@ struct alignas(alignof(void*)) Render_Object::Impl
 
 Render_Object::Render_Object(std::vector<rw_clustering_ptr<Mesh>>&& meshes
 			, std::map<TexType, std::vector<rw_clustering_ptr<Texture>>>&& textureMap
-			, rw_clustering_ptr<Transform>&& modelMatrix
-			, rw_clustering_ptr<Transform>&& prevModelMatrix
-			, std::vector<BoneTransform*>&& boneMatrices)
+			, rw_clustering_ptr<ModelMatrix>&& modelMatrix
+			, rw_clustering_ptr<ModelMatrix>&& prevModelMatrix
+			, std::vector<BoneModelMatrix*>&& boneMatrices)
 			: m_pImpl{Impl(std::move(meshes), std::move(textureMap), std::move(modelMatrix), std::move(prevModelMatrix), std::move(boneMatrices))}
 {
 }

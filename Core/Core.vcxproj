@@ -23,7 +23,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="SimObject.h" />
     <ClInclude Include="SimObjectHandler.h" />
-    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Pose.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoreMain.cpp" />
@@ -36,7 +36,7 @@
     </ClCompile>
     <ClCompile Include="SimObject.cpp" />
     <ClCompile Include="SimObjectHandler.cpp" />
-    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Pose.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
