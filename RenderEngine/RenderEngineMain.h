@@ -22,7 +22,7 @@ namespace NarakaRenderEngine
 		struct TexMapData
 		{
 			TexType&& type;
-			std::string&& path;
+			std::string path;
 		};
 
 		class RENDER_ENGINE_API RenderEngineMain
