@@ -1,7 +1,7 @@
 #ifndef SCENE_FBO_HANDLER_MANAGER
 #define SCENE_FBO_HANDLER_MANAGER
 
-#include "render_pch.h"
+#include "graphics_pch.h"
 
 //Loads and manages all the framebuffers 
 

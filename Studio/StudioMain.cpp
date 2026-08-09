@@ -11,13 +11,13 @@ using namespace Graphics;
 
 struct StudioMain::Impl
 {
-	UIMain engineUI;
+	UIMain ui;
 	std::vector<RendererToViewer> m_renderer2Viewers;
 	bool isEditorViewSelected;
 	bool isGameViewSelected;
 		
 	Impl() noexcept
-		: engineUI { true, "#version 460" }
+		: ui { true, "#version 460" }
 		, m_renderer2Viewers{ RendererToViewer { "Final_Output_Pass", "EditorView", Editor, 0, 0 } , RendererToViewer { "CameraPass0", "GameView", InGame, 0, 0 } }
 		, isEditorViewSelected { false }
 		, isGameViewSelected { false }
@@ -26,13 +26,12 @@ struct StudioMain::Impl
 
 	Impl(Impl&& rhs) noexcept = delete;
 	Impl& operator=(Impl&& rhs) noexcept = delete;
-
 	Impl(const Impl& rhs) noexcept = delete;
 	Impl& operator=(const Impl& rhs) noexcept = delete;
 
 	void Update(const glm::ivec2& screenDims)
 	{
-		engineUI.Update(screenDims);
+		ui.Update(screenDims);
 
 		if (isEditorViewSelected)
 		{
@@ -65,7 +64,7 @@ struct StudioMain::Impl
 
 	void EndUpdate()
 	{
-		engineUI.EndUpdate();
+		ui.EndUpdate();
 	}
 
 	void AddViewers(const GraphicsMain* graphicsMain)
@@ -79,7 +78,7 @@ struct StudioMain::Impl
 			std::function<void(bool)> selectCallback;
 			if (r2v.viewerType == Editor)	{ selectCallback = editorSelectCallback; }
 			else							{ selectCallback = gameSelectCallback; }
-			engineUI.AddViewers(fbo, r2v.viewerName, static_cast<ViewerType>(r2v.viewerType), selectCallback);
+			ui.AddViewers(fbo, r2v.viewerName, static_cast<ViewerType>(r2v.viewerType), selectCallback);
 		}
 	}
 
@@ -93,17 +92,17 @@ StudioMain::StudioMain() noexcept
 
 bool StudioMain::IsUpdateBufferSize() 
 {
-	return Pimpl()->engineUI.IsUpdateBufferSize();
+	return Pimpl()->ui.IsUpdateBufferSize();
 }
 
 glm::ivec2 StudioMain::GetScreenDimensions()
 {
-	return Pimpl()->engineUI.GetScreenDimensions();
+	return Pimpl()->ui.GetScreenDimensions();
 }
 
 bool StudioMain::IsEnd()
 {
-	return Pimpl()->engineUI.IsEnd();
+	return Pimpl()->ui.IsEnd();
 }
 void StudioMain::Update(const glm::ivec2& screenDims)
 {

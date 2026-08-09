@@ -1,7 +1,7 @@
 #ifndef CAMERA
 #define CAMERA
 
-#include "render_pch.h"
+#include "graphics_pch.h"
 
 namespace Graphics
 {

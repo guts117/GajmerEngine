@@ -1,7 +1,7 @@
 #ifndef MODEL_IMPORTER
 #define MODEL_IMPORTER
 
-#include "render_pch.h"
+#include "graphics_pch.h"
 
 //ToDo:
 //Expand This on a dedicated issue #60

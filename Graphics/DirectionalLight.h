@@ -1,7 +1,7 @@
 #ifndef DIRECTIONAL_LIGHT
 #define DIRECTIONAL_LIGHT
 
-#include "render_pch.h"
+#include "graphics_pch.h"
 #include "RenderingCommonValues.h"
 
 namespace Graphics

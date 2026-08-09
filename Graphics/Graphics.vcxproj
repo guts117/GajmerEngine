@@ -42,7 +42,7 @@
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Render_Object.cpp" />
-    <ClCompile Include="render_pch.cpp">
+    <ClCompile Include="graphics_pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -85,7 +85,7 @@
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Render_Object.h" />
-    <ClInclude Include="render_pch.h" />
+    <ClInclude Include="graphics_pch.h" />
     <ClInclude Include="Scene_Fbo_Handler_Manager.h" />
     <ClInclude Include="Render_Pass_Handler.h" />
     <ClInclude Include="Scene_Render_Pass_Handler.h" />
@@ -178,7 +178,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>render_pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>graphics_pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -200,7 +200,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>render_pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>graphics_pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -225,7 +225,7 @@
       <TranslateIncludes>true</TranslateIncludes>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>render_pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>graphics_pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -251,7 +251,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>render_pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>graphics_pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>

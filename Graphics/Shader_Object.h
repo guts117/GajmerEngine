@@ -1,7 +1,7 @@
 #ifndef SHADER_OBJECT
 #define SHADER_OBJECT
 
-#include "render_pch.h"
+#include "graphics_pch.h"
 #include "ForwardDeclaredPimpl.h"
 
 namespace Graphics

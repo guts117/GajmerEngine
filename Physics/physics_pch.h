@@ -7,9 +7,6 @@
 #ifndef PHYSICS_PCH_H
 #define PHYSICS_PCH_H
 
-// add headers that you want to pre-compile here
-#include "framework.h"
-
 #include <vector>
 #include <memory>
 #include <tuple>

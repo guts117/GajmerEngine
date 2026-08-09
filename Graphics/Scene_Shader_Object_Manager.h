@@ -1,7 +1,7 @@
 #ifndef SCENE_SHADER_OBJECT_MANAGER
 #define SCENE_SHADER_OBJECT_MANAGER
 
-#include "render_pch.h"
+#include "graphics_pch.h"
 
 //Loads and manages all the shaders
 namespace Graphics

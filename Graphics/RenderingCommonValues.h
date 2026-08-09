@@ -1,7 +1,7 @@
 #ifndef RENDERING_COMMONVALS
 #define RENDERING_COMMONVALS
 
-#include "render_pch.h"
+#include "graphics_pch.h"
 
 const int MAX_POINT_LIGHTS_WITH_SHADOW = 3;
 const int MAX_SPOT_LIGHTS = 3;

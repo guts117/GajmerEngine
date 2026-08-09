@@ -1,7 +1,7 @@
 #ifndef RENDER_PASS_HANDLER
 #define RENDER_PASS_HANDLER
 
-#include "render_pch.h"
+#include "graphics_pch.h"
 #include <type_traits>
 
 //Handles rendering 
