@@ -7,17 +7,17 @@ using namespace GE::Studio;
 
 struct alignas(alignof(void*)) Viewer::Impl
 {
-	std::function<void(bool)> m_SelectSceneCallback;
+	std::function<void(bool)> m_SelectWorldCallback;
 	std::string m_viewerName;
 	GLuint m_textureID;
 	ViewerType m_viewerType = ViewerType::Empty;
 
 	Impl() = delete;
 
-	Impl(GLuint sceneTex, std::string sceneName, ViewerType viewerType, std::function<void(bool)> selectCallback)
-		: m_SelectSceneCallback{ selectCallback }	
-		, m_viewerName{ sceneName }
-		, m_textureID{ sceneTex }
+	Impl(GLuint worldTex, std::string worldName, ViewerType viewerType, std::function<void(bool)> selectCallback)
+		: m_SelectWorldCallback{ selectCallback }	
+		, m_viewerName{ worldName }
+		, m_textureID{ worldTex }
 		, m_viewerType{ viewerType }
 	{
 	}
@@ -31,13 +31,13 @@ struct alignas(alignof(void*)) Viewer::Impl
 	GLuint GetTextureId() { return m_textureID; }
 	std::string GetViewerName() { return m_viewerName; }
 	ViewerType GetViewerType() { return m_viewerType; }
-	void InvokeSelectCallback(bool isSelected) { m_SelectSceneCallback(isSelected); }
+	void InvokeSelectCallback(bool isSelected) { m_SelectWorldCallback(isSelected); }
 
 	~Impl() noexcept = default;
 };
 
-Viewer::Viewer(GLuint sceneTex, std::string sceneName, ViewerType viewerType, std::function<void(bool)> selectCallback)
-	: m_pImpl{ Impl(sceneTex, sceneName, viewerType, selectCallback) }
+Viewer::Viewer(GLuint worldTex, std::string worldName, ViewerType viewerType, std::function<void(bool)> selectCallback)
+	: m_pImpl{ Impl(worldTex, worldName, viewerType, selectCallback) }
 {
 }
 

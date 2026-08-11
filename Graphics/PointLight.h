@@ -6,7 +6,7 @@
 namespace GE::Graphics
 {
 	class Fbo_Handler;
-	class Scene_Fbo_Handler_Manager;
+	class World_Fbo_Handler_Manager;
 
 	class PointLight
 	{
@@ -16,7 +16,7 @@ namespace GE::Graphics
 			GLfloat near, GLfloat far,
 			GLfloat red, GLfloat green, GLfloat blue,
 			GLfloat xPos, GLfloat yPos, GLfloat zPos,
-			Scene_Fbo_Handler_Manager* sceneFboHndlrMgr);
+			World_Fbo_Handler_Manager* worldFboHndlrMgr);
 
 		glm::vec3 position;
 		GLfloat farPlane{ 0.0f };

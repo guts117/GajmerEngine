@@ -1,6 +1,6 @@
 #include "graphics_pch.h"
 #include "PointLight.h"
-#include "Scene_Fbo_Handler_Manager.h"
+#include "World_Fbo_Handler_Manager.h"
 
 using namespace GE::Graphics;
 
@@ -13,7 +13,7 @@ PointLight::PointLight(GLuint shadowWidth, GLuint shadowHeight,
 						GLfloat near, GLfloat far, 
 						GLfloat red, GLfloat green, GLfloat blue,
 						GLfloat xPos, GLfloat yPos, GLfloat zPos,
-						Scene_Fbo_Handler_Manager* sceneFboHndlrMgr)
+						World_Fbo_Handler_Manager* worldFboHndlrMgr)
 {
 	position = glm::vec3(xPos, yPos, zPos);
 	color = glm::vec3(red, green, blue);
@@ -22,5 +22,5 @@ PointLight::PointLight(GLuint shadowWidth, GLuint shadowHeight,
 	float aspect = static_cast<float>(shadowWidth / shadowHeight);
 	lightProj = glm::perspective(glm::radians(90.0f), aspect, near, far);
 
-	shadowMap = sceneFboHndlrMgr->FindFboHandler("Omni_Shadow_Map_Pass");
+	shadowMap = worldFboHndlrMgr->FindFboHandler("Omni_Shadow_Map_Pass");
 }

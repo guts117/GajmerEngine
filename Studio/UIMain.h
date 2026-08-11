@@ -16,7 +16,7 @@ namespace GE::Studio
 		Empty,
 		Editor,
 		InGame,
-		//Add other sceneviewers for debug purposes too 
+		//Add other worldviewers for debug purposes too 
 	};
 
 	class STUDIO_API UIMain
@@ -34,7 +34,7 @@ namespace GE::Studio
 		void Update(const glm::ivec2& screenDims);
 		void EndUpdate();
 
-		void AddViewers(GLuint sceneTex, std::string sceneName, ViewerType viewerType, std::function<void(bool)> selectCallback);
+		void AddViewers(GLuint worldTex, std::string worldName, ViewerType viewerType, std::function<void(bool)> selectCallback);
 		GLFWwindow* GetMainWindow();
 		glm::ivec2 GetScreenDimensions();
 		bool IsUpdateBufferSize();

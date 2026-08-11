@@ -16,7 +16,7 @@ namespace GE::Graphics
 			GLfloat red, GLfloat green, GLfloat blue,
 			GLfloat xPos, GLfloat yPos, GLfloat zPos,
 			GLfloat xDir, GLfloat yDir, GLfloat zDir,
-			GLfloat edg, Scene_Fbo_Handler_Manager* sceneFboHndlrMgr);
+			GLfloat edg, World_Fbo_Handler_Manager* worldFboHndlrMgr);
 
 		void SetFlash(glm::vec3 pos, glm::vec3 dir);
 

@@ -24,7 +24,7 @@ struct Model_Importer::Impl
 	std::vector<BoneMatrix> m_bone_matrices;
 	float ticks_per_second = 0.0f;
 
-	const aiScene* scene = nullptr;
+	const aiScene* asmpScene = nullptr;
 
 	glm::quat rotate_head_xz = glm::quat(cos(glm::radians(0.0f)), sin(glm::radians(0.0f)) * glm::vec3(1.0f, 0.0f, 0.0f));
 
@@ -44,20 +44,20 @@ struct Model_Importer::Impl
 		MeshList = std::make_unique<std::vector<std::weak_ptr<Mesh>>>();
 
 		static Assimp::Importer importer;
-		scene = new aiScene(*importer.ReadFile(fileName, aiProcess_Triangulate | aiProcess_OptimizeMeshes | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace));
+		asmpScene = new aiScene(*importer.ReadFile(fileName, aiProcess_Triangulate | aiProcess_OptimizeMeshes | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace));
 		importer.GetOrphanedScene();
-		if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+		if (!asmpScene || asmpScene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !asmpScene->mRootNode)
 		{
 			std::cout << "error assimp : " << importer.GetErrorString() << std::endl;
 			return;
 		}
 
-		m_GlobalInverseTransform = scene->mRootNode->mTransformation;
+		m_GlobalInverseTransform = asmpScene->mRootNode->mTransformation;
 		m_GlobalInverseTransform.Inverse();
 
-		if (scene->mAnimations[0]->mTicksPerSecond != 0.0)
+		if (asmpScene->mAnimations[0]->mTicksPerSecond != 0.0)
 		{
-			ticks_per_second = static_cast<float> (scene->mAnimations[0]->mTicksPerSecond);
+			ticks_per_second = static_cast<float> (asmpScene->mAnimations[0]->mTicksPerSecond);
 		}
 		else
 		{
@@ -65,23 +65,23 @@ struct Model_Importer::Impl
 		}
 		directory = fileName.substr(0, fileName.find_last_of('/'));
 
-		std::cout << "scene->HasAnimations() 1: " << scene->HasAnimations() << std::endl;
-		std::cout << "scene->mNumMeshes 1: " << scene->mNumMeshes << std::endl;
-		std::cout << "scene->mAnimations[0]->mNumChannels 1: " << scene->mAnimations[0]->mNumChannels << std::endl;
-		std::cout << "scene->mAnimations[0]->mDuration 1: " << scene->mAnimations[0]->mDuration << std::endl;
-		std::cout << "scene->mAnimations[0]->mTicksPerSecond 1: " << scene->mAnimations[0]->mTicksPerSecond << std::endl << std::endl;
+		std::cout << "asmpScene->HasAnimations() 1: " << asmpScene->HasAnimations() << std::endl;
+		std::cout << "asmpScene->mNumMeshes 1: " << asmpScene->mNumMeshes << std::endl;
+		std::cout << "asmpScene->mAnimations[0]->mNumChannels 1: " << asmpScene->mAnimations[0]->mNumChannels << std::endl;
+		std::cout << "asmpScene->mAnimations[0]->mDuration 1: " << asmpScene->mAnimations[0]->mDuration << std::endl;
+		std::cout << "asmpScene->mAnimations[0]->mTicksPerSecond 1: " << asmpScene->mAnimations[0]->mTicksPerSecond << std::endl << std::endl;
 
 		std::cout << "		name nodes : " << std::endl;
-		showNodeName(scene->mRootNode);
+		showNodeName(asmpScene->mRootNode);
 		std::cout << std::endl;
 
 		std::cout << "		name bones : " << std::endl;
-		LoadNode(scene->mRootNode, scene);
+		LoadNode(asmpScene->mRootNode, asmpScene);
 
 		std::cout << "		name nodes animation : " << std::endl;
-		for (unsigned int i = 0; i < scene->mAnimations[0]->mNumChannels; i++)
+		for (unsigned int i = 0; i < asmpScene->mAnimations[0]->mNumChannels; i++)
 		{
-			std::cout << scene->mAnimations[0]->mChannels[i]->mNodeName.C_Str() << std::endl;
+			std::cout << asmpScene->mAnimations[0]->mChannels[i]->mNodeName.C_Str() << std::endl;
 		}
 		std::cout << std::endl;
 
@@ -97,17 +97,17 @@ struct Model_Importer::Impl
 		}
 	}
 
-	void LoadNode(aiNode* node, const aiScene* scene)
+	void LoadNode(aiNode* node, const aiScene* asmpScene)
 	{
-		for (unsigned int i = 0; i < scene->mNumMeshes; i++)
+		for (unsigned int i = 0; i < asmpScene->mNumMeshes; i++)
 		{
-			aiMesh* ai_mesh = scene->mMeshes[i];
-			LoadMesh(ai_mesh, scene);
+			aiMesh* ai_mesh = asmpScene->mMeshes[i];
+			LoadMesh(ai_mesh, asmpScene);
 		}
 
 	}
 
-	void LoadMesh(aiMesh* mesh, const aiScene* scene)
+	void LoadMesh(aiMesh* mesh, const aiScene* asmpScene)
 	{
 		std::vector<std::vector<GLfloat>> vertices2D;
 		std::vector<unsigned int> indices;
@@ -185,13 +185,13 @@ struct Model_Importer::Impl
 		MeshList->push_back(std::move(newMesh));
 
 		newMesh = nullptr;
-		LoadMaterials(scene);
+		LoadMaterials(asmpScene);
 	}
 
-	void LoadMaterials(const aiScene* scene)
+	void LoadMaterials(const aiScene* asmpScene)
 	{
-		//for (size_t i = 0; i < scene->mNumMaterials; i++) {
-		//	aiMaterial* material = scene->mMaterials[i];
+		//for (size_t i = 0; i < asmpScene->mNumMaterials; i++) {
+		//	aiMaterial* material = asmpScene->mMaterials[i];
 
 		//	if (material->GetTextureCount(aiTextureType_DIFFUSE) || material->GetTextureCount(aiTextureType_BASE_COLOR)) {
 
@@ -513,7 +513,7 @@ struct Model_Importer::Impl
 		std::string node_name(p_node->mName.data);
 
 
-		const aiAnimation* animation = scene->mAnimations[0];
+		const aiAnimation* animation = asmpScene->mAnimations[0];
 		aiMatrix4x4 node_transform = p_node->mTransformation;
 
 		const aiNodeAnim* node_anim = findNodeAnim(animation, node_name);
@@ -565,9 +565,9 @@ struct Model_Importer::Impl
 		aiMatrix4x4 identity_matrix;
 
 		double time_in_ticks = time_in_sec * ticks_per_second;
-		float animation_time = static_cast<float>(fmod(time_in_ticks, scene->mAnimations[0]->mDuration));
+		float animation_time = static_cast<float>(fmod(time_in_ticks, asmpScene->mAnimations[0]->mDuration));
 
-		readNodeHierarchy(animation_time, scene->mRootNode, identity_matrix);
+		readNodeHierarchy(animation_time, asmpScene->mRootNode, identity_matrix);
 
 		transforms.resize(m_NumBones);
 

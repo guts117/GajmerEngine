@@ -1,6 +1,6 @@
 #include "graphics_pch.h"
 #include "SpotLight.h"
-#include "Scene_Fbo_Handler_Manager.h"
+#include "World_Fbo_Handler_Manager.h"
 
 using namespace GE::Graphics;
 
@@ -16,8 +16,8 @@ SpotLight::SpotLight(GLuint shadowWidth, GLuint shadowHeight,
 					GLfloat red, GLfloat green, GLfloat blue,
 				    GLfloat xPos, GLfloat yPos, GLfloat zPos, 
 					GLfloat xDir, GLfloat yDir, GLfloat zDir, 
-					GLfloat edg, Scene_Fbo_Handler_Manager* sceneFboHndlrMgr)
-				    : PointLight(shadowWidth, shadowHeight, near, far, red, green, blue, xPos, yPos, zPos, sceneFboHndlrMgr){
+					GLfloat edg, World_Fbo_Handler_Manager* worldFboHndlrMgr)
+				    : PointLight(shadowWidth, shadowHeight, near, far, red, green, blue, xPos, yPos, zPos, worldFboHndlrMgr){
 
 	direction = glm::normalize(glm::vec3(xDir, yDir, zDir));
 	edge = edg;

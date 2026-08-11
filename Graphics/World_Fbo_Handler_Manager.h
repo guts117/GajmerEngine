@@ -1,5 +1,5 @@
-#ifndef SCENE_FBO_HANDLER_MANAGER
-#define SCENE_FBO_HANDLER_MANAGER
+#ifndef WORLD_FBO_HANDLER_MANAGER
+#define WORLD_FBO_HANDLER_MANAGER
 
 #include "graphics_pch.h"
 
@@ -9,22 +9,22 @@ namespace GE::Graphics
 {
 	class Fbo_Handler;
 
-	class Scene_Fbo_Handler_Manager
+	class World_Fbo_Handler_Manager
 	{
 	public:
-		explicit Scene_Fbo_Handler_Manager() = delete;
-		explicit Scene_Fbo_Handler_Manager(const std::string& sceneName, const glm::ivec2& screenDims);
+		explicit World_Fbo_Handler_Manager() = delete;
+		explicit World_Fbo_Handler_Manager(const std::string& worldName, const glm::ivec2& screenDims);
 
-		Scene_Fbo_Handler_Manager(Scene_Fbo_Handler_Manager&& rhs) noexcept;
-		Scene_Fbo_Handler_Manager& operator=(Scene_Fbo_Handler_Manager&& rhs) noexcept;
+		World_Fbo_Handler_Manager(World_Fbo_Handler_Manager&& rhs) noexcept;
+		World_Fbo_Handler_Manager& operator=(World_Fbo_Handler_Manager&& rhs) noexcept;
 
-		Scene_Fbo_Handler_Manager(const Scene_Fbo_Handler_Manager& rhs) noexcept = delete;
-		Scene_Fbo_Handler_Manager& operator=(const Scene_Fbo_Handler_Manager& rhs) noexcept = delete;
+		World_Fbo_Handler_Manager(const World_Fbo_Handler_Manager& rhs) noexcept = delete;
+		World_Fbo_Handler_Manager& operator=(const World_Fbo_Handler_Manager& rhs) noexcept = delete;
 
 		Fbo_Handler* FindFboHandler(const std::string& handlerName);
 		void ResizeScreenFboHandlers(const GLuint& width, const GLuint& height);
 		Fbo_Handler* AddGameCameraFboHandlers(const int& cameraId, const glm::ivec2& screenDims);
-		~Scene_Fbo_Handler_Manager() noexcept;
+		~World_Fbo_Handler_Manager() noexcept;
 
 	private:
 		//ToDo: Might have more than one instance that's why using ForwardDeclaredPimpl here

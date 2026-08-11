@@ -278,7 +278,7 @@ struct UIMain::Impl
 {
 	int hideWindowIndex;
 	std::unique_ptr<Window> mainWindow;
-	std::vector<Viewer> m_sceneList;
+	std::vector<Viewer> m_worldList;
 
     //ToDo: Start doing Node/Graph Editor Stuff
     SimpleNodeEditorExample nodeEditorEg;
@@ -287,7 +287,7 @@ struct UIMain::Impl
 	Impl() noexcept = delete;
 
 	Impl(const bool installCallbacks, const std::string version) noexcept
-		: m_sceneList{ std::vector<Viewer>() }
+		: m_worldList{ std::vector<Viewer>() }
 		, mainWindow{ std::make_unique<Window>() }
 	{		
 		mainWindow->Initialise();
@@ -327,11 +327,11 @@ struct UIMain::Impl
 ;
 		auto isHoveredCnt = 0; 
 
-		for (int i = 0; i < m_sceneList.size(); ++i)
+		for (int i = 0; i < m_worldList.size(); ++i)
 		{
-			ImGui::Begin(m_sceneList[i].GetViewerName().c_str(), nullptr, ImGuiWindowFlags_NoFocusOnAppearing);
+			ImGui::Begin(m_worldList[i].GetViewerName().c_str(), nullptr, ImGuiWindowFlags_NoFocusOnAppearing);
 			ImGui::SetWindowSize(ImVec2(screenDims.x / 2, screenDims.y / 2));
-			ImGui::Image((ImTextureID)m_sceneList[i].GetTextureId(), ImGui::GetWindowSize(), ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::Image((ImTextureID)m_worldList[i].GetTextureId(), ImGui::GetWindowSize(), ImVec2(0, 1), ImVec2(1, 0));
 
 			auto isSelected = false;
 			auto isDragging = ImGui::IsMouseDragging(ImGuiMouseButton_Left);
@@ -344,28 +344,28 @@ struct UIMain::Impl
 				auto isHovered = ImGui::IsMouseHoveringRect(pos, ImVec2(maxx, maxy));
 				auto isFocused = ImGui::IsWindowDocked() ? ImGui::IsWindowFocused() : true;
 
-				if (m_sceneList[i].GetViewerType() == Editor && hideWindowIndex < 0)
+				if (m_worldList[i].GetViewerType() == Editor && hideWindowIndex < 0)
 				{
 					isSelected = isHovered && isFocused;
 					if (isSelected)
 					{
-						ImGui::SetWindowFocus(m_sceneList[i].GetViewerName().c_str());
+						ImGui::SetWindowFocus(m_worldList[i].GetViewerName().c_str());
 					}
 				}
-				else if(m_sceneList[i].GetViewerType() == InGame && hideWindowIndex == i || hideWindowIndex < 0)
+				else if(m_worldList[i].GetViewerType() == InGame && hideWindowIndex == i || hideWindowIndex < 0)
 				{
 					isSelected = isHovered && isFocused;
 					if (isSelected) 
 					{
 						++isHoveredCnt;
 						hideWindowIndex = i;
-						ImGui::SetWindowFocus(m_sceneList[i].GetViewerName().c_str());
+						ImGui::SetWindowFocus(m_worldList[i].GetViewerName().c_str());
 						ImGui::GetIO().WantCaptureMouse = false;
 					}
 				}
 			}
 
-			m_sceneList[i].InvokeSelectCallback(isSelected);
+			m_worldList[i].InvokeSelectCallback(isSelected);
 
 			ImGui::End();
 		}
@@ -388,8 +388,8 @@ struct UIMain::Impl
 			ImGui::GetIO().ConfigFlags &= ~(ImGuiConfigFlags_NoMouse | ImGuiConfigFlags_NoMouseCursorChange);
 		}
 
-		ImGui::Begin("Hierarchy");
-		ImGui::Text("ToDo: Show World Hierarchy Here!!!!");
+		ImGui::Begin("World Tree Hierarchy");
+		ImGui::Text("ToDo: Show World Tree Hierarchy Here!!!!");
 		ImGui::SetWindowSize(ImVec2(screenDims.x / 2, screenDims.y / 2));
 		ImGui::End();
 
@@ -407,10 +407,10 @@ struct UIMain::Impl
 		IsUpdateFrameBuffersSize = false;
 	}
 
-	void AddViewers(GLuint sceneTex, std::string sceneName, ViewerType viewerType, std::function<void(bool)> selectCallback)
+	void AddViewers(GLuint worldTex, std::string worldName, ViewerType viewerType, std::function<void(bool)> selectCallback)
 	{
-		auto scene = Viewer(sceneTex, sceneName, viewerType, selectCallback);
-		m_sceneList.emplace_back(std::move(scene));
+		auto world = Viewer(worldTex, worldName, viewerType, selectCallback);
+		m_worldList.emplace_back(std::move(world));
 	}
 
 	~Impl() noexcept
@@ -438,9 +438,9 @@ void UIMain::EndUpdate()
 	Pimpl()->EndUpdate();
 }
 
-void UIMain::AddViewers(GLuint sceneTex, std::string sceneName, ViewerType viewerType, std::function<void(bool)> selectCallback)
+void UIMain::AddViewers(GLuint worldTex, std::string worldName, ViewerType viewerType, std::function<void(bool)> selectCallback)
 {
-	Pimpl()->AddViewers(sceneTex, sceneName, viewerType, selectCallback);
+	Pimpl()->AddViewers(worldTex, worldName, viewerType, selectCallback);
 }
 
 GLFWwindow* UIMain::GetMainWindow()

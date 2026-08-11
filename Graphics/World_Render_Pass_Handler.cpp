@@ -1,5 +1,5 @@
 #include "graphics_pch.h"
-#include "Scene_Render_Pass_Handler.h"
+#include "World_Render_Pass_Handler.h"
 #include "Fbo_Handler.h"
 #include "Shader_Object.h"
 #include "Render_Object.h"
@@ -7,14 +7,14 @@
 
 using namespace GE::Graphics;
 
-Scene_Render_Pass_Handler::Scene_Render_Pass_Handler(Fbo_Handler* fboHandlr
+World_Render_Pass_Handler::World_Render_Pass_Handler(Fbo_Handler* fboHandlr
 	, std::vector<rw_clustering_ptr<Shader_Object>>&& shaderVec
 	, std::shared_ptr<std::vector<std::shared_ptr<std::any>>> inputs)
 	: Render_Pass_Handler(fboHandlr, std::move(shaderVec), inputs)
 {
 }
 
-void Scene_Render_Pass_Handler::Update(std::vector<std::vector<Render_Object>>& renderObj, const CamParam* camParam, const LightParam* lightParam)
+void World_Render_Pass_Handler::Update(std::vector<std::vector<Render_Object>>& renderObj, const CamParam* camParam, const LightParam* lightParam)
 {
 	glViewport(0, 0, m_fboHandler->GetFBOWidth(), m_fboHandler->GetFBOHeight());
 
@@ -113,4 +113,4 @@ void Scene_Render_Pass_Handler::Update(std::vector<std::vector<Render_Object>>& 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-Scene_Render_Pass_Handler::~Scene_Render_Pass_Handler() = default;
+World_Render_Pass_Handler::~World_Render_Pass_Handler() = default;

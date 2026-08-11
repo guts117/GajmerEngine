@@ -48,10 +48,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Scene_Fbo_Handler_Manager.cpp" />
+    <ClCompile Include="World_Fbo_Handler_Manager.cpp" />
     <ClCompile Include="Render_Pass_Handler.cpp" />
-    <ClCompile Include="Scene_Render_Pass_Handler.cpp" />
-    <ClCompile Include="Scene_Shader_Object_Manager.cpp" />
+    <ClCompile Include="World_Render_Pass_Handler.cpp" />
+    <ClCompile Include="World_Shader_Object_Manager.cpp" />
     <ClCompile Include="Shader_Object.cpp" />
     <ClCompile Include="Skybox_Render_Pass_Handler.cpp" />
     <ClCompile Include="SpotLight.cpp" />
@@ -86,10 +86,10 @@
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Render_Object.h" />
     <ClInclude Include="graphics_pch.h" />
-    <ClInclude Include="Scene_Fbo_Handler_Manager.h" />
+    <ClInclude Include="World_Fbo_Handler_Manager.h" />
     <ClInclude Include="Render_Pass_Handler.h" />
-    <ClInclude Include="Scene_Render_Pass_Handler.h" />
-    <ClInclude Include="Scene_Shader_Object_Manager.h" />
+    <ClInclude Include="World_Render_Pass_Handler.h" />
+    <ClInclude Include="World_Shader_Object_Manager.h" />
     <ClInclude Include="Shader_Object.h" />
     <ClInclude Include="Skybox_Render_Pass_Handler.h" />
     <ClInclude Include="SpotLight.h" />

@@ -12,7 +12,7 @@ namespace GE::Studio
 	{
 	public:
 		explicit Viewer() = delete;
-		explicit Viewer(GLuint sceneTex, std::string sceneName, ViewerType viewerType, std::function<void(bool)> selectCallback);
+		explicit Viewer(GLuint worldTex, std::string worldName, ViewerType viewerType, std::function<void(bool)> selectCallback);
 
 		Viewer(Viewer&& rhs) noexcept;
 		Viewer& operator=(Viewer&& rhs) noexcept;

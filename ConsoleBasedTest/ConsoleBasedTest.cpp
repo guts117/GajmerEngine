@@ -234,7 +234,7 @@ struct PersonSystem : public System
 {
     vector<rw_clustering_ptr<PersonBehaviour>> personLogs;
 
-    void OnInit(Scene* scene)
+    void OnInit(World* world)
     {
         auto factor = std::thread::hardware_concurrency() / 10.0f;
 
@@ -244,13 +244,13 @@ struct PersonSystem : public System
         {
             auto id = to_string(i);
 
-            auto entity = scene->NewEntity();
-            auto nameLogPtr = scene->AssignComponent(entity, NameLogComponent("rabin" + id, "rabin mom" + id, "rabin dad" + id), 10);
-            auto ageLogPtr = scene->AssignComponent(entity, AgeLogComponent(0 + i, 50 + i, 100 + i), 10);
+            auto entity = world->NewEntity();
+            auto nameLogPtr = world->AssignComponent(entity, NameLogComponent("rabin" + id, "rabin mom" + id, "rabin dad" + id), 10);
+            auto ageLogPtr = world->AssignComponent(entity, AgeLogComponent(0 + i, 50 + i, 100 + i), 10);
             allPersonLogs.emplace_back(std::move(PersonLog(std::move(nameLogPtr), std::move(ageLogPtr), i)));
         }
 
-        scene->ExecuteClusteredTasksParallel<Scene::Entity>(pool, true);
+        world->ExecuteClusteredTasksParallel<World::Entity>(pool, true);
 
         std::random_device rd;
         std::mt19937 g(rd());
@@ -264,12 +264,12 @@ struct PersonSystem : public System
             {
                 personBehaviour.AddPersonLog(std::move(allPersonLogs[i * 10 + j]));
             }
-            auto entity = scene->NewEntity();
-            auto personBehaviourPtr = scene->AssignComponent(entity, std::move(personBehaviour), 10);
+            auto entity = world->NewEntity();
+            auto personBehaviourPtr = world->AssignComponent(entity, std::move(personBehaviour), 10);
             personLogs.emplace_back(std::move(personBehaviourPtr));
         }
 
-        scene->ExecuteClusteredTasksParallel<Scene::Entity>(pool, true);
+        world->ExecuteClusteredTasksParallel<World::Entity>(pool, true);
 
         Shuffle();
     }
@@ -289,16 +289,16 @@ struct PersonSystem : public System
         }
     }
 
-    virtual void UpdateParallel(Scene* scene) override
+    virtual void UpdateParallel(World* world) override
     {
         for (auto& pL : personLogs)
         {
             pL.stackingWrite(&PersonBehaviour::Update);
         }
 
-        scene->ExecuteClusteredTasksParallel<PersonBehaviour>(pool, true);
-        scene->ExecuteClusteredTasksParallel<NameLogComponent>(pool, false);
-        scene->ExecuteClusteredTasksParallel<AgeLogComponent>(pool, true);
+        world->ExecuteClusteredTasksParallel<PersonBehaviour>(pool, true);
+        world->ExecuteClusteredTasksParallel<NameLogComponent>(pool, false);
+        world->ExecuteClusteredTasksParallel<AgeLogComponent>(pool, true);
     }
 
     ~PersonSystem() = default;
@@ -308,18 +308,18 @@ struct PersonLogStage final : public Stage
 {
     PersonLogStage() = default;
 
-    virtual void OnInit(Scene* scene) override
+    virtual void OnInit(World* world) override
     {
         auto personSystem = std::make_shared<PersonSystem >();
-        personSystem->OnInit(scene);
+        personSystem->OnInit(world);
         AddSystem(std::move(personSystem));
     }
 
-    virtual void OnUpdate(Scene* scene) override
+    virtual void OnUpdate(World* world) override
     {
         auto start = chrono::high_resolution_clock::now();
 
-        UpdateSystems(scene);
+        UpdateSystems(world);
 
         auto end = chrono::high_resolution_clock::now();
 
@@ -396,14 +396,14 @@ void TestParallelClusterExecution()
 {
     //auto factor = std::thread::hardware_concurrency() / 10.0f;
 
-    Scene scene = Scene(10);
+    World world = World(10);
     Engine loggingEngine;
 
     loggingEngine.AddStage(std::make_unique<PersonLogStage>());
     
-    loggingEngine.InitStages(&scene);
+    loggingEngine.InitStages(&world);
    
-    loggingEngine.UpdateStages(&scene);
+    loggingEngine.UpdateStages(&world);
 }
 
 void TestClusteringPoolWriteValidity()
@@ -444,7 +444,7 @@ void TestClusteringPoolWriteValidity()
     }
 }
 
-void TestSceneSerialization()
+void TestWorldSerialization()
 {
     {
         std::ofstream os("data.json");
@@ -475,7 +475,7 @@ void TestSceneSerialization()
 int main()
 {
     cout << "Serialization Started\n\n" << endl;
-    TestSceneSerialization();
+    TestWorldSerialization();
     cout << "\n\nSerialization Finished" << endl;
     TestParallelClusterExecution();
     TestNormal();

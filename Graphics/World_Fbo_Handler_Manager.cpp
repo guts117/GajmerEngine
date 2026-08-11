@@ -1,5 +1,5 @@
 #include "graphics_pch.h"
-#include "Scene_Fbo_Handler_Manager.h"
+#include "World_Fbo_Handler_Manager.h"
 #include "FrameBufferObject.h"
 #include "Fbo_Handler.h"
 #include "RenderingCommonValues.h"
@@ -7,15 +7,15 @@
 
 using namespace GE::Graphics;
 
-struct alignas(alignof(std::string)) Scene_Fbo_Handler_Manager::Impl
+struct alignas(alignof(std::string)) World_Fbo_Handler_Manager::Impl
 {
-	std::string m_SceneName;
+	std::string m_WorldName;
 	std::vector<Fbo_Handler> m_FboHandlerVec;
 
 	Impl() = delete;
 
-	Impl(const std::string& sceneName, const glm::ivec2& screenDims)
-		: m_SceneName{ sceneName }
+	Impl(const std::string& worldName, const glm::ivec2& screenDims)
+		: m_WorldName{ worldName }
 		, m_FboHandlerVec{ std::vector<Fbo_Handler>() } 
 	{
 		//m_FboHandlerVec.reserve(100);
@@ -304,13 +304,13 @@ struct alignas(alignof(std::string)) Scene_Fbo_Handler_Manager::Impl
 	}
 
 	Impl(Impl&& rhs) noexcept 
-		: m_SceneName {std::move(rhs.m_SceneName)}
+		: m_WorldName {std::move(rhs.m_WorldName)}
 		, m_FboHandlerVec {std::move(rhs.m_FboHandlerVec)}
 	{
 	}
 	Impl& operator=(Impl&& rhs) noexcept 
 	{
-		m_SceneName = std::move(rhs.m_SceneName);
+		m_WorldName = std::move(rhs.m_WorldName);
 		m_FboHandlerVec = std::move(rhs.m_FboHandlerVec);
 		return *this;
 	}
@@ -321,28 +321,28 @@ struct alignas(alignof(std::string)) Scene_Fbo_Handler_Manager::Impl
 	~Impl() noexcept = default;
 };
 
-Scene_Fbo_Handler_Manager::Scene_Fbo_Handler_Manager(const std::string& sceneName, const glm::ivec2& screenDims)
-	: m_pImpl{ Impl(sceneName, screenDims) }
+World_Fbo_Handler_Manager::World_Fbo_Handler_Manager(const std::string& worldName, const glm::ivec2& screenDims)
+	: m_pImpl{ Impl(worldName, screenDims) }
 {
 }
 
-Scene_Fbo_Handler_Manager::Scene_Fbo_Handler_Manager(Scene_Fbo_Handler_Manager&& rhs) noexcept = default;
-Scene_Fbo_Handler_Manager& Scene_Fbo_Handler_Manager::operator=(Scene_Fbo_Handler_Manager&& rhs) noexcept = default;
+World_Fbo_Handler_Manager::World_Fbo_Handler_Manager(World_Fbo_Handler_Manager&& rhs) noexcept = default;
+World_Fbo_Handler_Manager& World_Fbo_Handler_Manager::operator=(World_Fbo_Handler_Manager&& rhs) noexcept = default;
 
-Fbo_Handler* Scene_Fbo_Handler_Manager::FindFboHandler(const std::string& handlerName)
+Fbo_Handler* World_Fbo_Handler_Manager::FindFboHandler(const std::string& handlerName)
 {
 	return Pimpl().FindFboHandler(handlerName);
 }
 
 
-void Scene_Fbo_Handler_Manager::ResizeScreenFboHandlers(const GLuint& width, const GLuint& height)
+void World_Fbo_Handler_Manager::ResizeScreenFboHandlers(const GLuint& width, const GLuint& height)
 {
 	Pimpl().ResizeScreenFboHandlers(width, height);
 }
 
-Fbo_Handler* Scene_Fbo_Handler_Manager::AddGameCameraFboHandlers(const int& cameraId, const glm::ivec2& screenDims)
+Fbo_Handler* World_Fbo_Handler_Manager::AddGameCameraFboHandlers(const int& cameraId, const glm::ivec2& screenDims)
 {
 	return Pimpl().AddGameCameraFboHandlers(cameraId, screenDims);
 }
 
-Scene_Fbo_Handler_Manager::~Scene_Fbo_Handler_Manager() noexcept = default;
+World_Fbo_Handler_Manager::~World_Fbo_Handler_Manager() noexcept = default;

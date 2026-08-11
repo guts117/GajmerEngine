@@ -1,6 +1,6 @@
 #include "graphics_pch.h"
 #include "DirectionalLight.h"
-#include "Scene_Fbo_Handler_Manager.h"
+#include "World_Fbo_Handler_Manager.h"
 
 using namespace GE::Graphics;
 
@@ -13,12 +13,12 @@ DirectionalLight::DirectionalLight()
 DirectionalLight::DirectionalLight(GLuint shadowWidth, GLuint shadowHeight,
 									GLfloat red, GLfloat green, GLfloat blue, 
 									GLfloat xDir, GLfloat yDir, GLfloat zDir, 
-									Scene_Fbo_Handler_Manager* sceneFboHndlrMgr)
+									World_Fbo_Handler_Manager* worldFboHndlrMgr)
 {
 	
 	direction = glm::vec3(xDir, yDir, zDir);
 	lightProj = glm::ortho(-1000.0f, 1000.0f, -1000.0f, 1000.0f, 0.1f, 10000.0f);
-	shadowMap = sceneFboHndlrMgr->FindFboHandler("Shadow_Map_Pass");
+	shadowMap = worldFboHndlrMgr->FindFboHandler("Shadow_Map_Pass");
 
 	color = glm::vec3(red, green, blue);
 }

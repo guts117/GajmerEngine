@@ -21,7 +21,7 @@ namespace GE::Studio
 
 	struct RendererToViewer
 	{
-		std::string sceneFboName;
+		std::string worldFboName;
 		std::string viewerName;
 		int viewerType;				//ViewerType
 		int fboIndex;

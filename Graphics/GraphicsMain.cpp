@@ -9,7 +9,7 @@
 #include "SpotLight.h"
 #include "Particle.h"
 
-#include "Scene_Fbo_Handler_Manager.h"
+#include "World_Fbo_Handler_Manager.h"
 #include "Fbo_Handler.h"
 
 #include "Model_Importer.h"
@@ -33,7 +33,7 @@
 #include "PreZ_Render_Pass_Handler.h"
 #include "Ssao_Render_Pass_Handler.h"
 #include "Ssao_Blur_Render_Pass_Handler.h"
-#include "Scene_Render_Pass_Handler.h"
+#include "World_Render_Pass_Handler.h"
 #include "Bloom_Render_Pass_Handler.h"
 #include "Motion_Blur_Render_Pass_Handler.h"
 #include "Exposure_Render_Pass_Handler.h"
@@ -89,7 +89,7 @@ struct GraphicsMain::Impl
 	std::unique_ptr<Compute_Shader> pressureProjectionCompShader3D = std::make_unique <Compute_Shader>();
 	std::unique_ptr <Model_Shader> fluidFragShader3D = std::make_unique<Model_Shader>();*/
 
-	std::unique_ptr<Scene_Fbo_Handler_Manager> m_SceneFboHandlerMgr;
+	std::unique_ptr<World_Fbo_Handler_Manager> m_WorldFboHandlerMgr;
 	Fbo_Handler* depthMap;
 	Fbo_Handler* exposureFbo;
 	Fbo_Handler* cameraBlitFbo;
@@ -128,7 +128,7 @@ struct GraphicsMain::Impl
 	std::vector<std::vector<Render_Object>> ssaoQuadRO;
 	std::vector<std::vector<Render_Object>> quadRO;
 	std::vector<std::vector<Render_Object>> cwCubeRO;
-	std::vector<std::vector<Render_Object>> sceneObjRO;
+	std::vector<std::vector<Render_Object>> worldObjRO;
 	std::vector<std::vector<Render_Object>> billboardRO;
 
 	rw_clustering_ptr<Mesh> AddToMeshPool(Mesh&& mesh)
@@ -259,7 +259,7 @@ struct GraphicsMain::Impl
 	std::shared_ptr<PreZ_Render_Pass_Handler> preZRPHandler;
 	std::shared_ptr<Ssao_Render_Pass_Handler> ssaoRPHandler;
 	std::shared_ptr<Ssao_Blur_Render_Pass_Handler> ssaoBlurRPHandler;
-	std::shared_ptr<Scene_Render_Pass_Handler> sceneRPHandler;
+	std::shared_ptr<World_Render_Pass_Handler> worldRPHandler;
 	std::shared_ptr<Bloom_Render_Pass_Handler> bloomRPHandler;
 	std::shared_ptr<Motion_Blur_Render_Pass_Handler> motionBlurRPHandler;
 	std::shared_ptr<Exposure_Render_Pass_Handler> exposureRPHandler;
@@ -344,10 +344,10 @@ struct GraphicsMain::Impl
 		//CreateBillboard();
 		//CreateParticles();
 
-		sceneObjRO = std::vector<std::vector<Render_Object>>();
+		worldObjRO = std::vector<std::vector<Render_Object>>();
 		billboardRO = std::vector<std::vector<Render_Object>>();
 
-		sceneObjRO.reserve(100);
+		worldObjRO.reserve(100);
 		billboardRO.reserve(100);
 
 		//ToDo: Expand This on a dedicated issue #61
@@ -434,22 +434,22 @@ struct GraphicsMain::Impl
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		m_SceneFboHandlerMgr = std::make_unique<Scene_Fbo_Handler_Manager>("InGame", screenDims);
+		m_WorldFboHandlerMgr = std::make_unique<World_Fbo_Handler_Manager>("InGame", screenDims);
 
-		auto environmentMap = m_SceneFboHandlerMgr->FindFboHandler("Environment_Map_Pass");
-		auto irradianceMap = m_SceneFboHandlerMgr->FindFboHandler("Irradiance_Map_Pass");
-		auto prefilterMap = m_SceneFboHandlerMgr->FindFboHandler("Pre_Filter_Pass");
-		auto brdfMap = m_SceneFboHandlerMgr->FindFboHandler("Brdf_Pass");
-		depthMap = m_SceneFboHandlerMgr->FindFboHandler("Depth_Pass");
-		auto ssaoFbo = m_SceneFboHandlerMgr->FindFboHandler("Ssao_Pass");
-		auto ssaoBlurFbo = m_SceneFboHandlerMgr->FindFboHandler("Ssao_Blur_Pass");
-		auto sceneFbo = m_SceneFboHandlerMgr->FindFboHandler("Shading_Pass");
-		auto motionBlurFbo = m_SceneFboHandlerMgr->FindFboHandler("Motion_Blur_Pass");
-		auto bloomFbo = m_SceneFboHandlerMgr->FindFboHandler("Bloom_Pass");
-		exposureFbo = m_SceneFboHandlerMgr->FindFboHandler("Final_Output_Pass");
-		auto omniShadowMaps = m_SceneFboHandlerMgr->FindFboHandler("Omni_Shadow_Map_Pass");
+		auto environmentMap = m_WorldFboHandlerMgr->FindFboHandler("Environment_Map_Pass");
+		auto irradianceMap = m_WorldFboHandlerMgr->FindFboHandler("Irradiance_Map_Pass");
+		auto prefilterMap = m_WorldFboHandlerMgr->FindFboHandler("Pre_Filter_Pass");
+		auto brdfMap = m_WorldFboHandlerMgr->FindFboHandler("Brdf_Pass");
+		depthMap = m_WorldFboHandlerMgr->FindFboHandler("Depth_Pass");
+		auto ssaoFbo = m_WorldFboHandlerMgr->FindFboHandler("Ssao_Pass");
+		auto ssaoBlurFbo = m_WorldFboHandlerMgr->FindFboHandler("Ssao_Blur_Pass");
+		auto worldFbo = m_WorldFboHandlerMgr->FindFboHandler("Shading_Pass");
+		auto motionBlurFbo = m_WorldFboHandlerMgr->FindFboHandler("Motion_Blur_Pass");
+		auto bloomFbo = m_WorldFboHandlerMgr->FindFboHandler("Bloom_Pass");
+		exposureFbo = m_WorldFboHandlerMgr->FindFboHandler("Final_Output_Pass");
+		auto omniShadowMaps = m_WorldFboHandlerMgr->FindFboHandler("Omni_Shadow_Map_Pass");
 
-		cameraBlitFbo = m_SceneFboHandlerMgr->AddGameCameraFboHandlers(0, screenDims);
+		cameraBlitFbo = m_WorldFboHandlerMgr->AddGameCameraFboHandlers(0, screenDims);
 
 		auto quad = std::vector<rw_clustering_ptr<Mesh>>();
 
@@ -656,13 +656,13 @@ struct GraphicsMain::Impl
 		mainLight = std::make_unique < DirectionalLight>(1024, 1024,
 			0.5f, 0.5f, 0.5f,
 			5500.0f, -5500.0f, -10000.0f,
-			m_SceneFboHandlerMgr.get());
+			m_WorldFboHandlerMgr.get());
 
 		pointLights[0] = std::make_unique < PointLight>(512, 512,
 			0.1f, 100.0f,
 			0.0f, 0.0f, 3.0f,
 			12.0f, 5.0f, 10.0f,
-			m_SceneFboHandlerMgr.get());
+			m_WorldFboHandlerMgr.get());
 
 		pointLightCount++;
 
@@ -670,7 +670,7 @@ struct GraphicsMain::Impl
 			0.1f, 100.0f,
 			3.0f, 0.0f, 0.0f,
 			-12.0f, 5.0f, 10.0f,
-			m_SceneFboHandlerMgr.get());
+			m_WorldFboHandlerMgr.get());
 
 		pointLightCount++;
 
@@ -679,7 +679,7 @@ struct GraphicsMain::Impl
 			10.0f, 10.0f, 10.0f,
 			0.0f, 0.0f, 0.0f,
 			0.0f, -1.0f, 0.0f,
-			10.0f, m_SceneFboHandlerMgr.get());
+			10.0f, m_WorldFboHandlerMgr.get());
 
 		spotLightCount++;
 
@@ -759,7 +759,7 @@ struct GraphicsMain::Impl
 		inputs->push_back(std::make_shared<std::any>(std::make_any<Fbo_Handler*>(ssaoFbo)));
 		ssaoBlurRPHandler = std::make_shared<Ssao_Blur_Render_Pass_Handler>(ssaoBlurFbo, std::move(ssaoBlurShaders), inputs);
 
-		auto sceneShaders = std::vector<rw_clustering_ptr<Shader_Object>>{ unrigShader, rigShader, terrShader};
+		auto worldShaders = std::vector<rw_clustering_ptr<Shader_Object>>{ unrigShader, rigShader, terrShader};
 		inputs = std::make_shared<std::vector<std::shared_ptr<std::any>>>();
 		inputs->push_back(std::make_shared<std::any>(std::make_any<Fbo_Handler*>(mainLight->GetShadowMap())));
 		inputs->push_back(std::make_shared<std::any>(std::make_any<Fbo_Handler*>(omniShadowMaps)));
@@ -768,16 +768,16 @@ struct GraphicsMain::Impl
 		inputs->push_back(std::make_shared<std::any>(std::make_any<Fbo_Handler*>(brdfMap)));
 		inputs->push_back(std::make_shared<std::any>(std::make_any<Fbo_Handler*>(ssaoBlurFbo)));
 		inputs->push_back(std::make_shared<std::any>(std::make_any<Fbo_Handler*>(depthMap)));
-		sceneRPHandler = std::make_shared<Scene_Render_Pass_Handler>(sceneFbo, std::move(sceneShaders), inputs);
+		worldRPHandler = std::make_shared<World_Render_Pass_Handler>(worldFbo, std::move(worldShaders), inputs);
 
 		auto bloomShaders = std::vector<rw_clustering_ptr<Shader_Object>>{ bloomShader };
 		inputs = std::make_shared<std::vector<std::shared_ptr<std::any>>>();
-		inputs->push_back(std::make_shared<std::any>(std::make_any<Fbo_Handler*>(sceneFbo)));
+		inputs->push_back(std::make_shared<std::any>(std::make_any<Fbo_Handler*>(worldFbo)));
 		bloomRPHandler = std::make_shared<Bloom_Render_Pass_Handler>(bloomFbo, std::move(bloomShaders), inputs);
 
 		auto motionBlurShaders = std::vector<rw_clustering_ptr<Shader_Object>>{ motionBlurShader };
 		inputs = std::make_shared<std::vector<std::shared_ptr<std::any>>>();
-		inputs->push_back(std::make_shared<std::any>(std::make_any<Fbo_Handler*>(sceneFbo)));
+		inputs->push_back(std::make_shared<std::any>(std::make_any<Fbo_Handler*>(worldFbo)));
 		motionBlurRPHandler = std::make_shared<Motion_Blur_Render_Pass_Handler>(motionBlurFbo, std::move(motionBlurShaders), inputs);
 
 		auto exosureShaders = std::vector<rw_clustering_ptr<Shader_Object>>{ exposureShader };
@@ -789,10 +789,10 @@ struct GraphicsMain::Impl
 		auto skyboxShaders = std::vector<rw_clustering_ptr<Shader_Object>>{ skyboxShader };
 		inputs = std::make_shared<std::vector<std::shared_ptr<std::any>>>();
 		inputs->push_back(std::make_shared<std::any>(std::make_any<Fbo_Handler*>(environmentMap)));
-		skyboxRPHandler = std::make_shared<Skybox_Render_Pass_Handler>(sceneFbo, std::move(skyboxShaders), inputs);
+		skyboxRPHandler = std::make_shared<Skybox_Render_Pass_Handler>(worldFbo, std::move(skyboxShaders), inputs);
 
 		auto billboardShaders = std::vector<rw_clustering_ptr<Shader_Object>>{ billboardShader };
-		billBoardRPHandler = std::make_shared<Billboard_Render_Pass_Handler>(sceneFbo, std::move(billboardShaders));
+		billBoardRPHandler = std::make_shared<Billboard_Render_Pass_Handler>(worldFbo, std::move(billboardShaders));
 	
 /*		modelMatrixPool.ExecuteClusteredTasks();
 		prevModelMatrixPool.ExecuteClusteredTasks();
@@ -830,7 +830,7 @@ struct GraphicsMain::Impl
 		int data[4] = { sizeX, sizeY, screenDims.x, screenDims.y };
 		glNamedBufferSubData(screenToViewSSBO, 80, sizeof(data), &data);
 
-		m_SceneFboHandlerMgr->ResizeScreenFboHandlers(screenDims.x, screenDims.y);
+		m_WorldFboHandlerMgr->ResizeScreenFboHandlers(screenDims.x, screenDims.y);
 		CreateClusters();
 	}
 
@@ -948,7 +948,7 @@ struct GraphicsMain::Impl
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 		}
 
-		//Setting up lights buffer that contains all the lights in the scene
+		//Setting up lights buffer that contains all the lights in the world
 		{
 			glGenBuffers(1, &lightSSBO);
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightSSBO);
@@ -957,7 +957,7 @@ struct GraphicsMain::Impl
 			std::unique_ptr<std::vector<GPULight>> lightList = std::make_unique<std::vector<GPULight>>(maxLights, tempGpuLight);
 			PointLight* light;
 			for (unsigned int i = 0; i < pointLightCount; ++i) {
-				//Fetching the light from the current scene
+				//Fetching the light from the current world
 				light = pointLights[i].get();
 				lightList.get()->at(i).position = glm::vec4(light->position, 1.0f);
 				lightList.get()->at(i).color = glm::vec4(light->color, 1.0f);
@@ -1160,7 +1160,7 @@ struct GraphicsMain::Impl
 		mro = Render_Object(std::move(mesh), std::move(texMap), AddToModelMatrixPool(std::move(modelMatrix)), AddToPrevModelMatrixPool(std::move(prevModelMatrix)));
 		unrigStuff.push_back(std::move(mro));
 
-		sceneObjRO.push_back(std::move(unrigStuff));
+		worldObjRO.push_back(std::move(unrigStuff));
 
 		auto billboardStuff = std::vector<Render_Object>();
 
@@ -1215,7 +1215,7 @@ struct GraphicsMain::Impl
 	}
 
 	//ToDo: Fix and refactor in #33
-	//void RenderParticlesScene(GLfloat deltaTime)
+	//void RenderParticlesWorld(GLfloat deltaTime)
 	//{
 	//	particleList[0]->GenerateParticlesCPU(deltaTime, glm::vec3(10.0f, 33.0f, 0.0f));
 	//	particleList[0]->SimulateParticlesCPU(camera->getCameraPosition(), deltaTime);
@@ -1239,7 +1239,7 @@ struct GraphicsMain::Impl
 		}
 
 		auto lightParam = LightParam{ nullptr, proj, vView };
-		dirShadowRPHandler->Update(sceneObjRO, &camParam, &lightParam);
+		dirShadowRPHandler->Update(worldObjRO, &camParam, &lightParam);
 	}
 
 	void OmniShadowMapPass(const std::vector<std::shared_ptr<PointLight>>& lights, const CamParam& camParam) 
@@ -1256,7 +1256,7 @@ struct GraphicsMain::Impl
 		}
 
 		auto lightParam = LightParam(&positions[0], &projections[0], nullptr, nullptr, &farplanes[0], nullptr, lights.size());
-		omniShadowRPHandler->Update(sceneObjRO, &camParam, &lightParam);
+		omniShadowRPHandler->Update(worldObjRO, &camParam, &lightParam);
 	}
 
 	void CullLight(const CamParam& camParam, const glm::ivec2& screenDims)
@@ -1294,7 +1294,7 @@ struct GraphicsMain::Impl
 
 	void PreZPass(const CamParam& camParam)
 	{
-		preZRPHandler->Update(sceneObjRO, &camParam);
+		preZRPHandler->Update(worldObjRO, &camParam);
 	}
 
 	void SSAOPass(const CamParam& camParam)
@@ -1365,7 +1365,7 @@ struct GraphicsMain::Impl
 
 		lightParam = LightParam(&lightData->positions[0], &lightData->projections[0], nullptr, &lightData->directions[0], &lightData->farplanes[0], &lightData->edges[0], spotLightCount, &lightData->colors[0]);
 		lightParamList.push_back(std::move(lightParam));
-		sceneRPHandler->Update(sceneObjRO, &camParam, &lightParamList[0]);
+		worldRPHandler->Update(worldObjRO, &camParam, &lightParamList[0]);
 		//Note: **Important** skybox being after transparent mesh causes blending issues
 		skyboxRPHandler->Update(cwCubeRO, &camParam);		
 		billBoardRPHandler->Update(billboardRO, &camParam);
@@ -1804,7 +1804,7 @@ void GraphicsMain::EndUpdate()
 
 const GLuint GraphicsMain::GetFboBuffer(const std::string& fboHandlerName, const GLuint& fboIndex, const GLuint& bufferIndex) const
 {
-	auto fboHndlr = Pimpl()->m_SceneFboHandlerMgr->FindFboHandler(fboHandlerName);
+	auto fboHndlr = Pimpl()->m_WorldFboHandlerMgr->FindFboHandler(fboHandlerName);
 	return fboHndlr != nullptr ? fboHndlr->GetFBOBuffer(fboIndex, bufferIndex) : 0;
 }
 

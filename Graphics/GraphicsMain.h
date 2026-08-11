@@ -14,7 +14,7 @@ namespace GE::Graphics
 {
 	class Render_Object;
 	class Texture;
-	class Scene_Fbo_Handler_Manager;
+	class World_Fbo_Handler_Manager;
 	enum TexType;
 
 	struct TexMapData

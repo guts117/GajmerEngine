@@ -7,7 +7,7 @@
 namespace GE::Graphics
 {
 	class Fbo_Handler;
-	class Scene_Fbo_Handler_Manager;
+	class World_Fbo_Handler_Manager;
 
 	class DirectionalLight
 	{
@@ -17,7 +17,7 @@ namespace GE::Graphics
 		DirectionalLight(GLuint shadowWidth, GLuint shadowHeight,
 			GLfloat red, GLfloat green, GLfloat blue,
 			GLfloat xDir, GLfloat yDir, GLfloat zDir, 
-			Scene_Fbo_Handler_Manager* sceneFboHndlrMgr);
+			World_Fbo_Handler_Manager* worldFboHndlrMgr);
 
 		glm::mat4 CalculateLightTransform();
 		glm::mat4 CalculateCascadeLightTransform();
