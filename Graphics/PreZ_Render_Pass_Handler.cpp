@@ -1,0 +1,56 @@
+#include "graphics_pch.h"
+#include "PreZ_Render_Pass_Handler.h"
+#include "Fbo_Handler.h"
+#include "Shader_Object.h"
+#include "Render_Object.h"
+
+using namespace GE::Graphics;
+
+PreZ_Render_Pass_Handler::PreZ_Render_Pass_Handler(Fbo_Handler* fboHandlr
+	, std::vector<rw_clustering_ptr<Shader_Object>>&& shaderVec
+	, std::shared_ptr<std::vector<std::shared_ptr<std::any>>> inputs)
+	: Render_Pass_Handler(fboHandlr, std::move(shaderVec), inputs)
+{
+}
+
+void PreZ_Render_Pass_Handler::Update(std::vector<std::vector<Render_Object>>& renderObj, const CamParam* camParam, const LightParam* lightParam)
+{
+	glViewport(0, 0, m_fboHandler->GetFBOWidth(), m_fboHandler->GetFBOHeight());
+
+	m_fboHandler->BindFBO();
+	//clear depth buffer
+	glClear(GL_DEPTH_BUFFER_BIT);
+
+	for(auto shaderIndex = 0; shaderIndex < m_shaderVec.size(); ++shaderIndex)
+	{
+		if (shaderIndex >= renderObj.size()) { break; }
+
+		auto& shader = m_shaderVec[shaderIndex];
+
+		//shader->ResetTextureUnit(0);
+		shader.invoke(&Shader_Object::ResetTextureUnit, 0);
+		shader->UseShaderObject();
+
+		shader->SetVariable("Projection", camParam->Projection);
+		shader->SetVariable("View", camParam->View);
+
+		for (auto roIndex = 0; roIndex < renderObj[shaderIndex].size(); ++roIndex)
+		{
+			auto& ro = renderObj[shaderIndex][roIndex];
+			if (ro.IsTesselated())
+			{
+				shader->SetVariable("eyePosition", camParam->Position);
+				ro.RenderObject(shader, std::move(RenderObjectParams{ true, true }));
+			}
+			else
+			{
+				ro.RenderObject(shader, std::move(RenderObjectParams{ true }));
+			}
+		}
+		shader->ValidateShaderObject();
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+PreZ_Render_Pass_Handler::~PreZ_Render_Pass_Handler() = default;

@@ -1,0 +1,33 @@
+#ifndef POINTLIGHT
+#define POINTLIGHT
+
+#include "graphics_pch.h"
+
+namespace GE::Graphics
+{
+	class Fbo_Handler;
+	class World_Fbo_Handler_Manager;
+
+	class PointLight
+	{
+	public:
+		PointLight();
+		PointLight(GLuint shadowWidth, GLuint shadowHeight,
+			GLfloat near, GLfloat far,
+			GLfloat red, GLfloat green, GLfloat blue,
+			GLfloat xPos, GLfloat yPos, GLfloat zPos,
+			World_Fbo_Handler_Manager* worldFboHndlrMgr);
+
+		glm::vec3 position;
+		GLfloat farPlane{ 0.0f };
+		glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);;
+		glm::mat4 lightProj = glm::mat4();
+	
+		Fbo_Handler* GetShadowMap() { return shadowMap; }
+			
+		~PointLight() = default;
+	protected:
+		Fbo_Handler* shadowMap;
+	};
+}
+#endif
