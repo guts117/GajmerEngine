@@ -5,7 +5,7 @@
 
 //Loads and manages all the framebuffers 
 
-namespace Graphics
+namespace GE::Graphics
 {
 	class Fbo_Handler;
 

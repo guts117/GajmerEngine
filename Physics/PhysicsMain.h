@@ -9,7 +9,7 @@
 
 #include "physics_pch.h"
 
-namespace Physics
+namespace GE::Physics
 {
 	class PHYSICS_API PhysicsMain
 	{

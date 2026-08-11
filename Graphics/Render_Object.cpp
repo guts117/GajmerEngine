@@ -4,7 +4,7 @@
 #include "Texture.h"
 #include "Shader_Object.h"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 struct alignas(alignof(void*)) Render_Object::Impl
 {

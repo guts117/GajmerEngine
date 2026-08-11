@@ -1,7 +1,7 @@
 #include "graphics_pch.h"
 #include "Debug.h"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 void Debug::DebugPrintReferenceTBN(std::string header, GLfloat* vertices, int offset, glm::vec3 nm) {
 

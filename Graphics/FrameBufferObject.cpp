@@ -1,7 +1,7 @@
 #include "graphics_pch.h"
 #include "FrameBufferObject.h"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 struct alignas(alignof(void*)) FrameBufferObject::Impl
 {

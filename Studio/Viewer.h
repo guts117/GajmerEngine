@@ -4,7 +4,7 @@
 #include "studio_pch.h"
 #include <ForwardDeclaredPimpl.h>
 
-namespace Studio
+namespace GE::Studio
 {
 	enum ViewerType;
 

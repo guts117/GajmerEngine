@@ -9,12 +9,12 @@
 
 #include "studio_pch.h"
 
-namespace Graphics
+namespace GE::Graphics
 {
 	class GraphicsMain;
 }
 
-namespace Studio
+namespace GE::Studio
 {
 	class Viewer;
 	class UIMain;

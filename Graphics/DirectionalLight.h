@@ -4,7 +4,7 @@
 #include "graphics_pch.h"
 #include "RenderingCommonValues.h"
 
-namespace Graphics
+namespace GE::Graphics
 {
 	class Fbo_Handler;
 	class Scene_Fbo_Handler_Manager;

@@ -5,7 +5,7 @@
 #include "RenderingCommonValues.h"
 #include <cereal/access.hpp>
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 struct alignas(alignof(std::string)) Scene_Fbo_Handler_Manager::Impl
 {

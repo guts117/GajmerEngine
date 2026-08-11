@@ -3,7 +3,7 @@
 
 #include "Render_Pass_Handler.h"
 
-namespace Graphics
+namespace GE::Graphics
 {
     class Render_Object;
     class Shader_Object;

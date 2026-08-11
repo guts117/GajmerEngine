@@ -3,7 +3,7 @@
 #include "SimObject.h"
 #include "Pose.h"
 
-using namespace Core;
+using namespace GE::Core;
 
 
 struct CoreMain::Impl

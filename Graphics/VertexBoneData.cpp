@@ -1,7 +1,7 @@
 #include "graphics_pch.h"
 #include "VertexBoneData.h"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 VertexBoneData::VertexBoneData()
 {

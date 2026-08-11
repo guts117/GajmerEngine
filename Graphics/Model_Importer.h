@@ -5,7 +5,7 @@
 
 //ToDo:
 //Expand This on a dedicated issue #60
-namespace Graphics
+namespace GE::Graphics
 {
 	struct BoneMatrix
 	{

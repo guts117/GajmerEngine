@@ -3,7 +3,7 @@
 #include "Viewer.h"
 
 
-using namespace Studio;
+using namespace GE::Studio;
 
 struct alignas(alignof(void*)) Viewer::Impl
 {

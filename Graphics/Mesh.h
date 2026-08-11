@@ -5,7 +5,7 @@
 #include "VertexBoneData.h"
 #include "ForwardDeclaredPimpl.h"
 
-namespace Graphics
+namespace GE::Graphics
 {	
 	struct MeshGenParams
 	{

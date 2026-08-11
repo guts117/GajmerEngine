@@ -5,7 +5,7 @@
 #include "Render_Object.h"
 #include "RenderingCommonValues.h"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 Exposure_Render_Pass_Handler::Exposure_Render_Pass_Handler(Fbo_Handler* fboHandlr
 	, std::vector<rw_clustering_ptr<Shader_Object>>&& shaderVec

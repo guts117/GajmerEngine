@@ -5,8 +5,8 @@
 #include "Viewer.h"
 #include "InputManager.h"
 
-using namespace Studio;
-using namespace Graphics;
+using namespace GE::Studio;
+using namespace GE::Graphics;
 
 
 struct StudioMain::Impl

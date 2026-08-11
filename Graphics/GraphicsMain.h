@@ -10,7 +10,7 @@
 #define GRAPHICS_API __declspec(dllimport)
 #endif
 
-namespace Graphics
+namespace GE::Graphics
 {
 	class Render_Object;
 	class Texture;

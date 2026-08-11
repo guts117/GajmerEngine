@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "UIMain.h"
 
-using namespace Studio;
+using namespace GE::Studio;
 
 //[3840 x 2160] [2560 x 1440] [1920 x 1080] [1280x720]
 int ScreenWidth;

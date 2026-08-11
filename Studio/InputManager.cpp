@@ -2,7 +2,7 @@
 #include "InputManager.h"
 #include "UIMain.h"
 
-using namespace Studio;
+using namespace GE::Studio;
 
 double InputManager::scrollVal;
 bool InputManager::keys[1024];

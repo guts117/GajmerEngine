@@ -3,7 +3,7 @@
 
 #include "Render_Pass_Handler.h"
 
-namespace Graphics
+namespace GE::Graphics
 {
     class Billboard_Render_Pass_Handler final :
         public Render_Pass_Handler

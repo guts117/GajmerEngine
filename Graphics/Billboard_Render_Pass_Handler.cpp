@@ -7,7 +7,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_decompose.hpp>
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 Billboard_Render_Pass_Handler::Billboard_Render_Pass_Handler(Fbo_Handler* fboHandlr
 	, std::vector<rw_clustering_ptr<Shader_Object>>&& shaderVec

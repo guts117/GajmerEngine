@@ -2,7 +2,7 @@
 #include "Fbo_Handler.h"
 #include "FrameBufferObject.h"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 struct alignas(alignof(std::string)) Fbo_Handler::Impl
 {

@@ -7,7 +7,7 @@
 
 namespace ed = ax::NodeEditor;
 
-using namespace Studio;
+using namespace GE::Studio;
 
 extern int ScreenWidth;
 extern int ScreenHeight;

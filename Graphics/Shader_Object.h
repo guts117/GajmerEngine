@@ -4,7 +4,7 @@
 #include "graphics_pch.h"
 #include "ForwardDeclaredPimpl.h"
 
-namespace Graphics
+namespace GE::Graphics
 {
 	class Shader_Object : public ClusterableWithBuffer<sizeof(std::string), alignof(std::string)>
 	{

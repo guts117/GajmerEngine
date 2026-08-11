@@ -1,7 +1,7 @@
 #include "graphics_pch.h"
 #include "Particle.h"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 bool Particle::operator<(const Particle& that) const
 {

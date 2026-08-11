@@ -4,7 +4,7 @@
 #include "Shader_Object.h"
 #include "Render_Object.h"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 Irradiance_Convolution_Render_Pass_Handler::Irradiance_Convolution_Render_Pass_Handler(Fbo_Handler* fboHandlr
 	, std::vector<rw_clustering_ptr<Shader_Object>>&& shaderVec

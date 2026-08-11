@@ -9,7 +9,7 @@
 
 #include "studio_pch.h"
 
-namespace Studio
+namespace GE::Studio
 {
 	enum ViewerType
 	{

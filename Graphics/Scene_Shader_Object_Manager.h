@@ -4,7 +4,7 @@
 #include "graphics_pch.h"
 
 //Loads and manages all the shaders
-namespace Graphics
+namespace GE::Graphics
 {
 	class Scene_Shader_Object_Manager
 	{

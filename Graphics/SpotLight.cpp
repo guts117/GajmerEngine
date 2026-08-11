@@ -2,7 +2,7 @@
 #include "SpotLight.h"
 #include "Scene_Fbo_Handler_Manager.h"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 SpotLight::SpotLight() : PointLight() {
 	direction = glm::vec3(0.0f, -1.0f, 0.0f);

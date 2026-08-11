@@ -3,16 +3,16 @@
 
 #include "pch.h"
 
-namespace Physics
+namespace GE::Physics
 {
 	class PhysicsMain;
 }
-namespace Graphics
+namespace GE::Graphics
 {
 	class Render_Object;
 }
 
-namespace Core
+namespace GE::Core
 {
 	struct Pose;
 	struct SimObject

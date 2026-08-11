@@ -2,7 +2,7 @@
 #include "DirectionalLight.h"
 #include "Scene_Fbo_Handler_Manager.h"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 DirectionalLight::DirectionalLight()
 {

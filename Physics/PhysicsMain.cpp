@@ -2,7 +2,7 @@
 #include "PhysicsMain.h"
 #include <bullet/btBulletDynamicsCommon.h>
 
-using namespace Physics;
+using namespace GE::Physics;
 
 struct PhysicsMain::Impl 
 {

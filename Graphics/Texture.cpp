@@ -4,7 +4,7 @@
 #include "stb_image.h"
 #include "RenderingCommonValues.h"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 struct alignas(alignof(std::string)) Texture::Impl
 {

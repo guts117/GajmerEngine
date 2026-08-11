@@ -3,7 +3,7 @@
 
 #include "PointLight.h"
 
-namespace Graphics
+namespace GE::Graphics
 {
 	class SpotLight :
 		public PointLight

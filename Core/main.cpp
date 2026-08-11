@@ -3,10 +3,10 @@
 #include "PhysicsMain.h"
 #include "StudioMain.h"
 
-//using namespace Core;
-using namespace Studio;
-using namespace Graphics;
-using namespace Physics;
+//using namespace GE::Core;
+using namespace GE::Studio;
+using namespace GE::Graphics;
+using namespace GE::Physics;
 
 
 int main()

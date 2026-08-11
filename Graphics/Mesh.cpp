@@ -1,7 +1,7 @@
 #include "graphics_pch.h"
 #include "Mesh.h"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 //ToDo: Add Support for Render with Static and Dynamic Batching.
 struct alignas(alignof(GLuint)) Mesh::Impl

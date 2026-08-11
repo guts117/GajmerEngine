@@ -5,7 +5,7 @@
 #include "Render_Object.h"
 #include "RenderingCommonValues.h"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 Directional_Shadow_Map_Render_Pass_Handler::Directional_Shadow_Map_Render_Pass_Handler(Fbo_Handler* fboHandlr
 	, std::vector<rw_clustering_ptr<Shader_Object>>&& shaderVec

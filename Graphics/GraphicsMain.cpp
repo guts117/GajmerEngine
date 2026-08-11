@@ -43,7 +43,7 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <regex>
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 struct GraphicsMain::Impl
 {

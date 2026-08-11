@@ -3,7 +3,7 @@
 
 #include "graphics_pch.h"
 
-namespace Graphics
+namespace GE::Graphics
 {
 	//ToDo: Serialize this
 	struct FBORenderBufferParam

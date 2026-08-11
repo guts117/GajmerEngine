@@ -3,7 +3,7 @@
 
 #include "pch.h"
 
-namespace Core
+namespace GE::Core
 {
 	class CoreMain
 	{

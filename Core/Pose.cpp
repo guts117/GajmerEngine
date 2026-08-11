@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Pose.h"
 
-using namespace Core;
+using namespace GE::Core;
 
 //ToDo: Wrap in Math class Global variable not good
 const float toRadians = static_cast<float>(M_PI) / 180.0f;

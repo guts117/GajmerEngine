@@ -6,7 +6,7 @@
 #include <iterator>
 #include "exprtk.hpp"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 struct alignas(alignof(void*)) Shader_Object::Impl
 {	

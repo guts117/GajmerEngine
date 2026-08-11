@@ -4,7 +4,7 @@
 #include "Mesh.h"
 #include "GraphicsMain.h"
 
-using namespace Graphics;
+using namespace GE::Graphics;
 
 
 //ToDo:

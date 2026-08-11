@@ -1,7 +1,7 @@
 #ifndef PARTICLESYSTEM
 #define PARTICLESYSTEM
 
-namespace Graphics
+namespace GE::Graphics
 {
 	class Particle;
 
