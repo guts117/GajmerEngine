@@ -240,7 +240,7 @@ struct PersonSystem : public System
 
         std::vector<PersonLog> allPersonLogs;
 
-        for (int i = 0; i < 100; ++i)
+        for (int i = 0; i < 10000000; ++i)
         {
             auto id = to_string(i);
 
@@ -257,12 +257,12 @@ struct PersonSystem : public System
 
         std::shuffle(allPersonLogs.begin(), allPersonLogs.end(), g);
 
-        for (int i = 0; i < 10; ++i)
+        for (int i = 0; i < 1000; ++i)
         {
             auto personBehaviour = PersonBehaviour();
-            for (int j = 0; j < 10; ++j)
+            for (int j = 0; j < 10000; ++j)
             {
-                personBehaviour.AddPersonLog(std::move(allPersonLogs[i * 10 + j]));
+                personBehaviour.AddPersonLog(std::move(allPersonLogs[i * 10000 + j]));
             }
             auto entity = world->NewEntity();
             auto personBehaviourPtr = world->AssignComponent(entity, std::move(personBehaviour), 10);
@@ -342,7 +342,7 @@ void TestNormal()
 
     vector<shared_ptr<PersonLogNormal>> perLogs = vector<shared_ptr<PersonLogNormal>>();
 
-    for (int i = 0; i < 100; ++i)
+    for (int i = 0; i < 10000000; ++i)
     {
         auto id = to_string(i);
         nameLogPool.push_back(std::make_shared<NameLogComponent>(NameLogComponent{ "rabin" + id,  "rabin mom" + id, "rabin dad" + id }));
@@ -356,12 +356,12 @@ void TestNormal()
 
     std::shuffle(perLogs.begin(), perLogs.end(), g);
 
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 1000; ++i)
     {
         auto tempPerVec = vector<shared_ptr<PersonLogNormal>>();
-        for (int j = 0; j < 10; ++j)
+        for (int j = 0; j < 10000; ++j)
         {
-            tempPerVec.emplace_back(std::move(perLogs[i * 10 + j]));
+            tempPerVec.emplace_back(std::move(perLogs[i * 10000 + j]));
         }
         personSystemPool.emplace_back(std::move(std::make_shared<PersonHandlerNormal>(tempPerVec)));
     }
@@ -474,12 +474,12 @@ void TestWorldSerialization()
 
 int main()
 {
+    TestParallelClusterExecution();
+    TestNormal();
+    TestClusteringPoolWriteValidity();
     cout << "Serialization Started\n\n" << endl;
     TestWorldSerialization();
     cout << "\n\nSerialization Finished" << endl;
-    TestParallelClusterExecution();
-    TestNormal();
-    //TestClusteringPoolWriteValidity();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
