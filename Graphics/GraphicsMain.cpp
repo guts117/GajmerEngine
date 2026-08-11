@@ -1226,7 +1226,7 @@ struct GraphicsMain::Impl
 
 	void DirectionalShadowMapPass(DirectionalLight* light, const CamParam& camParam, const glm::ivec2& screenDims) {
 
-		auto testLitView = light->CalculateCascadeLightTransform();
+		auto testLitView = light->CalculateCascadeLightPose();
 		light->CalcOrthProjs(camParam.View, &testLitView, 60.0f, screenDims);
 
 		glm::mat4 proj[NUM_CASCADES];

@@ -11,7 +11,7 @@ using namespace GE::Graphics;
 //Expand This on a dedicated issue #60
 struct Model_Importer::Impl
 {
-	aiMatrix4x4 m_GlobalInverseTransform;
+	aiMatrix4x4 m_GlobalInverseModelMatrix;
 	std::string directory;
 
 	std::unique_ptr<std::vector<std::weak_ptr<Mesh>>> MeshList;
@@ -52,8 +52,8 @@ struct Model_Importer::Impl
 			return;
 		}
 
-		m_GlobalInverseTransform = asmpScene->mRootNode->mTransformation;
-		m_GlobalInverseTransform.Inverse();
+		m_GlobalInverseModelMatrix = asmpScene->mRootNode->mTransformation;
+		m_GlobalInverseModelMatrix.Inverse();
 
 		if (asmpScene->mAnimations[0]->mTicksPerSecond != 0.0)
 		{
@@ -507,7 +507,7 @@ struct Model_Importer::Impl
 		return nullptr;
 	}
 
-	void readNodeHierarchy(float p_animation_time, const aiNode* p_node, const aiMatrix4x4 parent_transform)
+	void readNodeHierarchy(float p_animation_time, const aiNode* p_node, const aiMatrix4x4 parent_model_matrix)
 	{
 
 		std::string node_name(p_node->mName.data);
@@ -544,13 +544,13 @@ struct Model_Importer::Impl
 
 		}
 
-		aiMatrix4x4 global_transform = parent_transform * node_transform;
+		aiMatrix4x4 global_transform = parent_model_matrix * node_transform;
 
 
 		if (m_BoneMapping.find(node_name) != m_BoneMapping.end())
 		{
 			unsigned int bone_index = m_BoneMapping[node_name];
-			m_bone_matrices[bone_index].final_world_transform = m_GlobalInverseTransform * global_transform * m_bone_matrices[bone_index].offset_matrix;
+			m_bone_matrices[bone_index].final_world_model_matrix = m_GlobalInverseModelMatrix * global_transform * m_bone_matrices[bone_index].offset_matrix;
 		}
 
 		for (unsigned int i = 0; i < p_node->mNumChildren; i++)
@@ -573,7 +573,7 @@ struct Model_Importer::Impl
 
 		for (unsigned int i = 0; i < m_NumBones; i++)
 		{
-			transforms[i] = m_bone_matrices[i].final_world_transform;
+			transforms[i] = m_bone_matrices[i].final_world_model_matrix;
 		}
 	}
 

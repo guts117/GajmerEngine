@@ -10,7 +10,7 @@ namespace GE::Graphics
 	struct BoneMatrix
 	{
 		aiMatrix4x4 offset_matrix;
-		aiMatrix4x4 final_world_transform;
+		aiMatrix4x4 final_world_model_matrix;
 	};
 
 	struct KeyFrames

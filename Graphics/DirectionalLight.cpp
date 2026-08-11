@@ -23,13 +23,13 @@ DirectionalLight::DirectionalLight(GLuint shadowWidth, GLuint shadowHeight,
 	color = glm::vec3(red, green, blue);
 }
 
-glm::mat4 DirectionalLight::CalculateLightTransform()
+glm::mat4 DirectionalLight::CalculateLightPose()
 {
-	glm::mat4 lTransform = lightProj * glm::lookAt(-direction, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	return lTransform;
+	glm::mat4 lPose = lightProj * glm::lookAt(-direction, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	return lPose;
 }
 
-glm::mat4 DirectionalLight::CalculateCascadeLightTransform()
+glm::mat4 DirectionalLight::CalculateCascadeLightPose()
 {
 	glm::vec3 LitDir = glm::normalize(-direction);
 	glm::vec3 right = glm::normalize(glm::cross(LitDir, glm::vec3(0.0f, 1.0f, 0.0f)));

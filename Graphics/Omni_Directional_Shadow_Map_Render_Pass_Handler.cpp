@@ -14,7 +14,7 @@ Omni_Directional_Shadow_Map_Render_Pass_Handler::Omni_Directional_Shadow_Map_Ren
 {
 }
 
-void SetLightTransform(rw_clustering_ptr<Shader_Object>& shader, const int& lightIndex, const LightParam* lightParam)
+void SetLightPose(rw_clustering_ptr<Shader_Object>& shader, const int& lightIndex, const LightParam* lightParam)
 {
 	auto& position = lightParam->Position[lightIndex];
 	auto& projection = lightParam->Projection[lightIndex];
@@ -57,7 +57,7 @@ void Omni_Directional_Shadow_Map_Render_Pass_Handler::Update(std::vector<std::ve
 			shader->UseShaderObject();
 			shader->SetVariable("lightPos", lightParam->Position[lightIndex]);
 			shader->SetVariable("farPlane", lightParam->FarPlane[lightIndex]);
-			SetLightTransform(shader, lightIndex, lightParam);
+			SetLightPose(shader, lightIndex, lightParam);
 			shader->ValidateShaderObject();
 
 			for (auto roIndex = 0; roIndex < renderObj[shaderIndex].size(); ++roIndex)

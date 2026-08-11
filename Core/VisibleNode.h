@@ -19,7 +19,7 @@ namespace GE::Core
 	{
 		std::string name = "";
 		unsigned long uniqueSimId = 0;													//Use this for object identification and sorting; 
-		Pose* transform = nullptr;													//ptr to pool
+		Pose* pose = nullptr;													//ptr to pool
 		Graphics::Render_Object* renderObject = nullptr;						//ptr to pool
 		std::weak_ptr<VisibleNode> parentNode = std::weak_ptr<VisibleNode>();				//ptr to parent node
 	};

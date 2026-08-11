@@ -51,7 +51,7 @@ void World_Render_Pass_Handler::Update(std::vector<std::vector<Render_Object>>& 
 				//shader->SetTextureUnitStructArr("directionalShadowMaps", cascId, "shadowMap");
 				shader.invoke(&Shader_Object::SetTextureUnitStructArr, "directionalShadowMaps", cascId, "shadowMap");
 				val->AttachFBOToTextureUnit(0, shader->GetTextureUnit(), 0, cascId);
-				shader->SetVariable("DirectionalLightTransforms", lightParam[0].Projection[cascId] * lightParam[0].View[cascId], cascId);
+				shader->SetVariable("DirectionalLightPoses", lightParam[0].Projection[cascId] * lightParam[0].View[cascId], cascId);
 				shader->SetVariable("CascadeEndClipSpace", lightParam[0].Edge[cascId], cascId);
 			}
 		}

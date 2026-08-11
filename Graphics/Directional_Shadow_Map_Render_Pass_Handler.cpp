@@ -33,7 +33,7 @@ void Directional_Shadow_Map_Render_Pass_Handler::Update(std::vector<std::vector<
 			//shader->ResetTextureUnit(0);
 			shader.invoke(&Shader_Object::ResetTextureUnit, 0);
 			shader->UseShaderObject();	
-			shader->SetVariable("DirectionalLightTransform", lightParam->Projection[cascadeId] * lightParam->View[cascadeId]);
+			shader->SetVariable("DirectionalLightPose", lightParam->Projection[cascadeId] * lightParam->View[cascadeId]);
 			shader->ValidateShaderObject();
 
 			for (auto roIndex = 0; roIndex < renderObj[shaderIndex].size(); ++roIndex)

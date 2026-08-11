@@ -19,8 +19,8 @@ namespace GE::Graphics
 			GLfloat xDir, GLfloat yDir, GLfloat zDir, 
 			World_Fbo_Handler_Manager* worldFboHndlrMgr);
 
-		glm::mat4 CalculateLightTransform();
-		glm::mat4 CalculateCascadeLightTransform();
+		glm::mat4 CalculateLightPose();
+		glm::mat4 CalculateCascadeLightPose();
 		Fbo_Handler* GetShadowMap() { return shadowMap; }
 		float GetCascadeEnd(unsigned int i);
 		void CalcOrthProjs(const glm::mat4& Cam, const glm::mat4* vView, const float& angle, const glm::ivec2& screenDims);

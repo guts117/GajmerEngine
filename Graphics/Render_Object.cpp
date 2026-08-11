@@ -53,7 +53,7 @@ struct alignas(alignof(void*)) Render_Object::Impl
 
 	void RenderObject(rw_clustering_ptr<Shader_Object>& shader, RenderObjectParams&& params)
 	{
-		if (params.useWorldSpaceTransform && m_ModelMatrix.isValid())
+		if (params.useWorldSpacePose && m_ModelMatrix.isValid())
 		{
 			shader->SetVariable("Model", m_ModelMatrix.get()->GetModelMatrix());
 

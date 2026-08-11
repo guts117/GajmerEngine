@@ -22,7 +22,7 @@ namespace GE::Graphics
 
 	struct RenderObjectParams
 	{
-		const bool&& useWorldSpaceTransform = false;
+		const bool&& useWorldSpacePose = false;
 		const bool&& useTextures = false;
 		const glm::mat4* prevViewProjection = nullptr;	//has motion blur
 	};

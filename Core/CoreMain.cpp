@@ -8,7 +8,7 @@ using namespace GE::Core;
 
 struct CoreMain::Impl
 {
-	std::vector<Pose> transformPool = std::vector<Pose>();
+	std::vector<Pose> posePool = std::vector<Pose>();
 	std::vector<VisibleNode> visibleNodepool = std::vector<VisibleNode>();
 
 	//where game loops happen;
@@ -27,9 +27,9 @@ struct CoreMain::Impl
 	Impl(const Impl& rhs) noexcept = delete;
 	Impl& operator=(const Impl& rhs) noexcept = delete;
 
-	void UpdateObjectTransforms()
+	void UpdateObjectPoses()
 	{
-		for (auto& t : transformPool)
+		for (auto& t : posePool)
 		{
 			t.Updatematrix();
 		}
@@ -37,7 +37,7 @@ struct CoreMain::Impl
 
 	void Update(const glm::ivec2& screenDims) 
 	{
-		UpdateObjectTransforms();
+		UpdateObjectPoses();
 	}
 	void EndUpdate() 
 	{
