@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "CoreMain.h"
-#include "SimObject.h"
+#include "VisibleNode.h"
 #include "Pose.h"
 
 using namespace GE::Core;
@@ -9,7 +9,7 @@ using namespace GE::Core;
 struct CoreMain::Impl
 {
 	std::vector<Pose> transformPool = std::vector<Pose>();
-	std::vector<SimObject> simObjectpool = std::vector<SimObject>();
+	std::vector<VisibleNode> visibleNodepool = std::vector<VisibleNode>();
 
 	//where game loops happen;
 	std::vector<std::function<void()>> onCreation;

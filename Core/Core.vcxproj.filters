@@ -14,13 +14,13 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SimObject.h">
+    <ClInclude Include="VisibleNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Pose.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SimObjectHandler.h">
+    <ClInclude Include="VisibleNodeHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CoreMain.h">
@@ -34,13 +34,13 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimObject.cpp">
+    <ClCompile Include="VisibleNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Pose.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimObjectHandler.cpp">
+    <ClCompile Include="VisibleNodeHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CoreMain.cpp">

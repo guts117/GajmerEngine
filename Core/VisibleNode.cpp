@@ -1,4 +1,4 @@
 #include "pch.h"
-#include "SimObject.h"
+#include "VisibleNode.h"
 
 using namespace GE::Core;
