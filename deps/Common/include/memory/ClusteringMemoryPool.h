@@ -918,7 +918,7 @@ int GetPoolId()
 	return s_poolId;
 }
 
-class Scene
+class World
 {
 private:
 	struct Component
@@ -964,7 +964,7 @@ private:
 public:
 	struct Entity : ClusterableWithBuffer<sizeof(Component), alignof(Component)>
 	{
-		friend class Scene;
+		friend class World;
 		std::vector<Component> const * GetAllComponents() const
 		{
 			return &components;
@@ -990,12 +990,12 @@ public:
 		std::vector<Component> components;
 	};
 
-	Scene(unsigned int entityBlockSize) 
+	World(unsigned int entityBlockSize) 
 		: entities{ ClusteringMemoryPool<Entity>(entityBlockSize) }
 		, memoryPools{ std::vector<MemoryPool*>() }
 		, freeEntities{ std::vector<rw_clustering_ptr<Entity>>() }
 	{}
-	~Scene() = default;
+	~World() = default;
 
 	rw_clustering_ptr<Entity> NewEntity()
 	{
@@ -1082,14 +1082,14 @@ public:
 
 struct System
 {
-	virtual void UpdateParallel(Scene* scene) {}
+	virtual void UpdateParallel(World* world) {}
 	virtual ~System() = 0 {}
 };
 
 struct Stage
 {
-	virtual void OnInit(Scene* scene) {}
-	virtual void OnUpdate(Scene* scene) {}
+	virtual void OnInit(World* world) {}
+	virtual void OnUpdate(World* world) {}
 	virtual ~Stage() = 0 {}
 
 protected:
@@ -1101,11 +1101,11 @@ protected:
 		systems.emplace_back(std::move(system_ptr));
 	}
 
-	void UpdateSystems(Scene* scene)
+	void UpdateSystems(World* world)
 	{
 		for (auto& system : systems)
 		{
-			system->UpdateParallel(scene);
+			system->UpdateParallel(world);
 		}
 	}
 };
@@ -1117,19 +1117,19 @@ struct Engine final
 		stages.emplace_back(std::move(stage));
 	}
 
-	void InitStages(Scene* scene)
+	void InitStages(World* world)
 	{
 		for (auto& stage : stages)
 		{
-			stage->OnInit(scene);
+			stage->OnInit(world);
 		}
 	}
 
-	void UpdateStages(Scene* scene)
+	void UpdateStages(World* world)
 	{
 		for (auto& stage : stages)
 		{
-			stage->OnUpdate(scene);
+			stage->OnUpdate(world);
 		}
 	}
 
